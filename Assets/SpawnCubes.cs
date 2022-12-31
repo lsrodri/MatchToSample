@@ -11,6 +11,7 @@ public class SpawnCubes : MonoBehaviour
     public GameObject cubePrefab; // Assign the original cube prefab in the inspector
     public GameObject pathCubePrefab; // Assign the path cube prefab in the inspector
     public GameObject Haptics;
+ 
     private float cubeHeight;
     private bool[,] visited; // A 2D array to store whether each cube has been visited
     private int pathLength; // A counter to keep track of the path length
@@ -56,7 +57,7 @@ public class SpawnCubes : MonoBehaviour
         // Call the recursive function to generate the path
         GeneratePath(0, 0);
 
-        
+        StartCoroutine(wakeUpHaptics());
     }
 
     // A recursive function to generate the path
@@ -67,8 +68,7 @@ public class SpawnCubes : MonoBehaviour
         {
             transform.position = new Vector3(-4.569737f, -2.991227f, -1.190004f);
             transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            Haptics.SetActive(false);
-            Haptics.SetActive(true);
+            
             return;
         }
 
@@ -114,10 +114,10 @@ public class SpawnCubes : MonoBehaviour
 
         cubeHeight = cubePrefab.transform.localScale.y;
 
-        // Instantiate a new path cube prefab at the position of the current cube
+        //Instantiate a new path cube prefab at the position of the current cube
         var pathCube = Instantiate(pathCubePrefab,
-            new Vector3(transform.GetChild(x * 5 + y).position.x, transform.GetChild(x * 5 + y).position.y - cubeHeight / 2, transform.GetChild(x * 5 + y).position.z), 
-            Quaternion.identity);
+           new Vector3(transform.GetChild(x * 5 + y).position.x, transform.GetChild(x * 5 + y).position.y - cubeHeight / 2, transform.GetChild(x * 5 + y).position.z),
+           Quaternion.identity);
 
         // Set the parent of the path cube to the container game object
         pathCube.transform.SetParent(transform);
@@ -152,6 +152,18 @@ public class SpawnCubes : MonoBehaviour
             }
         }
 
+    }
+    IEnumerator wakeUpHaptics()
+    {
+
+        //Wait for 4 seconds
+        yield return new WaitForSecondsRealtime(1);
+        //Instantiate(Haptics);
+        // Instantiate a new prefab as a sibling of the current game object
+        var prefabInstance = Instantiate(Haptics, new Vector3(0f,0f,0f) , transform.rotation, transform.parent);
+        
+        var grabber = prefabInstance.transform.Find("Grabber");
+        grabber.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 }
 
