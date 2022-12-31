@@ -364,7 +364,8 @@
 "Assets/OpenHaptics/HapticScripts/HapticPlugin.cs"
 "Assets/OpenHaptics/HapticScripts/HapticPluginSafetyScript.cs"
 "Assets/OpenHaptics/HapticScripts/HapticSurface.cs"
-"Assets/SpawnCubes.cs"
+"Assets/Scripts/Reveal.cs"
+"Assets/Scripts/SpawnCubes.cs"
 -langversion:9.0
 
 /deterministic
