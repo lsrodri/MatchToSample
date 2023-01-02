@@ -11,7 +11,9 @@ public class SpawnCubes : MonoBehaviour
     public GameObject cubePrefab; // Assign the original cube prefab in the inspector
     public GameObject pathCubePrefab; // Assign the path cube prefab in the inspector
     public GameObject Haptics;
- 
+    public GameObject ProbeProxy;
+
+
     private float cubeHeight;
     private bool[,] visited; // A 2D array to store whether each cube has been visited
     private int pathLength; // A counter to keep track of the path length
@@ -160,10 +162,12 @@ public class SpawnCubes : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         //Instantiate(Haptics);
         // Instantiate a new prefab as a sibling of the current game object
-        //var prefabInstance = Instantiate(Haptics, new Vector3(0f, 0f, 0f), transform.rotation, transform.parent);
+        var prefabInstance = Instantiate(Haptics, new Vector3(0f, 0f, 0f), transform.rotation, transform.parent);
 
-        //var grabber = prefabInstance.transform.Find("Grabber");
-        //grabber.transform.localScale = new Vector3(1f, 1f, 1f);
+        var grabber = prefabInstance.transform.Find("Grabber");
+        grabber.transform.localScale = new Vector3(1f, 1f, 1f);
+
+        Instantiate(ProbeProxy);
     }
 }
 
