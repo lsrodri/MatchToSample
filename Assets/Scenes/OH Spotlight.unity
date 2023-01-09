@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 286653412}
   - component: {fileID: 286653411}
   - component: {fileID: 286653410}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barrier Left
   m_TagString: Touchable
   m_Icon: {fileID: 0}
@@ -306,13 +306,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286653409}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.82, y: -1.79, z: 0.533}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.140361, y: -1.0182368, z: 0.26775122}
   m_LocalScale: {x: 0.16, y: 0.905, z: 3.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1426082298}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &302634670
 GameObject:
@@ -343,7 +343,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &550664857
 GameObject:
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 550664860}
   - component: {fileID: 550664859}
   - component: {fileID: 550664858}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barrier Right
   m_TagString: Touchable
   m_Icon: {fileID: 0}
@@ -434,13 +434,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550664857}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: -1.8, z: 0.533}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.759639, y: -1.0282367, z: 0.26775122}
   m_LocalScale: {x: 0.16, y: 0.905, z: 3.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1426082298}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &595557128
 GameObject:
@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 595557131}
   - component: {fileID: 595557130}
   - component: {fileID: 595557129}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barrier Left (2)
   m_TagString: Touchable
   m_Icon: {fileID: 0}
@@ -531,13 +531,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595557128}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.375, y: -1.79, z: -0.94}
-  m_LocalScale: {x: 0.16, y: 0.905, z: 3.055}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.30463898, y: -1.0182368, z: -1.2052488}
+  m_LocalScale: {x: 0.15999998, y: 0.905, z: 3.0550003}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1426082298}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &653203328
 GameObject:
@@ -584,9 +584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8a95f0bbf1dd34392bfba14f18f485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 4090858956881741595, guid: 141f73f90cb62494c893fb82ccaf513b, type: 3}
-  pathCubePrefab: {fileID: 4090858956881741595, guid: cb07697640674d04788784b54c005028, type: 3}
+  cubePrefab: {fileID: 4090858956881741595, guid: 31b42e389df7e8540949d8c7b580d564, type: 3}
+  pathCubePrefab: {fileID: 4090858956881741595, guid: 6c7dc52200f8b8f42bc65efb3abd44af, type: 3}
   Haptics: {fileID: 1896115111616518, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
+  ProbeProxy: {fileID: 0}
+  spotlightFollower: {fileID: 1335160879}
 --- !u!114 &653203331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db0d81774f3db5498a34224f0a13cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mat: {fileID: 2100000, guid: e2abe847ca204d54691b1855c8677c94, type: 2}
+  Mat: {fileID: 2100000, guid: dee1f0d179e45b74c8446f2d3951504d, type: 2}
+  MatOffpath: {fileID: 2100000, guid: 558fe021334d5644680b8cf189be8b60, type: 2}
   SpotLight: {fileID: 1335160880}
 --- !u!1 &663502711
 GameObject:
@@ -613,7 +616,7 @@ GameObject:
   - component: {fileID: 663502714}
   - component: {fileID: 663502713}
   - component: {fileID: 663502712}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Touchable
   m_Icon: {fileID: 0}
@@ -790,7 +793,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1063423733
 GameObject:
@@ -895,6 +898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1335160881}
   - component: {fileID: 1335160880}
+  - component: {fileID: 1335160882}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -916,7 +920,7 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 38
+  m_SpotAngle: 25.1
   m_InnerSpotAngle: 3
   m_CookieSize: 10
   m_Shadows:
@@ -951,7 +955,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -972,13 +976,60 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335160879}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -2.48, y: -0.298, z: -0.57}
+  m_LocalPosition: {x: -2.48, y: -0.66, z: -0.57}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
+--- !u!114 &1335160882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335160879}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48441e60687892c4592967631e8dfbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1426082297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426082298}
+  m_Layer: 6
+  m_Name: Barrier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1426082298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426082297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.679639, y: -0.7717632, z: 0.26524878}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 286653413}
+  - {fileID: 550664861}
+  - {fileID: 1613931621}
+  - {fileID: 595557132}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1613931617
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,7 +1042,7 @@ GameObject:
   - component: {fileID: 1613931620}
   - component: {fileID: 1613931619}
   - component: {fileID: 1613931618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barrier Left (1)
   m_TagString: Touchable
   m_Icon: {fileID: 0}
@@ -1068,11 +1119,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1613931617}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.32, y: -1.79, z: 1.96}
-  m_LocalScale: {x: 0.16, y: 0.905, z: 2.9}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.35963893, y: -1.0182368, z: 1.6947513}
+  m_LocalScale: {x: 0.15999998, y: 0.905, z: 2.8999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1426082298}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}

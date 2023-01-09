@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4332160712231117223}
   - component: {fileID: 159535716354899017}
   m_Layer: 0
-  m_Name: YellowCube
+  m_Name: SpotYellowCube
   m_TagString: Touchable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 065901b6b8d371c4b874ac05787b25e2, type: 2}
+  - {fileID: 2100000, guid: 558fe021334d5644680b8cf189be8b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161f4254f68160c438488b4439ed4a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideOnStart: 0
 --- !u!54 &159535716354899017
 Rigidbody:
   m_ObjectHideFlags: 0

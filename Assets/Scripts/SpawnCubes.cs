@@ -12,12 +12,15 @@ public class SpawnCubes : MonoBehaviour
     public GameObject pathCubePrefab; // Assign the path cube prefab in the inspector
     public GameObject Haptics;
     public GameObject ProbeProxy;
+    public GameObject spotlightFollower;
+
 
 
     private float cubeHeight;
     private bool[,] visited; // A 2D array to store whether each cube has been visited
     private int pathLength; // A counter to keep track of the path length
-
+    private Transform grabber;
+    private bool spotlightEnabled;
 
 
     void Start()
@@ -155,6 +158,15 @@ public class SpawnCubes : MonoBehaviour
         }
 
     }
+
+    void Update()
+    {
+        if (spotlightEnabled)
+        {
+            spotlightFollower.transform.position = new Vector3(grabber.transform.position.x, grabber.transform.position.y + 2.642466f, grabber.transform.position.z);
+        }
+    }
+
     IEnumerator wakeUpHaptics()
     {
 
@@ -164,10 +176,19 @@ public class SpawnCubes : MonoBehaviour
         // Instantiate a new prefab as a sibling of the current game object
         var prefabInstance = Instantiate(Haptics, new Vector3(0f, 0f, 0f), transform.rotation, transform.parent);
 
-        var grabber = prefabInstance.transform.Find("Grabber");
+        grabber = prefabInstance.transform.Find("Grabber");
         grabber.transform.localScale = new Vector3(1f, 1f, 1f);
 
-        Instantiate(ProbeProxy);
+        if(ProbeProxy)
+        {
+            Instantiate(ProbeProxy);
+        } 
+        else if (spotlightFollower)
+        {
+            spotlightEnabled = true;
+            
+        }
+        
     }
 }
 

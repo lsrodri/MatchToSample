@@ -351,6 +351,8 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/FollowProbe.cs"
 "Assets/HapticToggle.cs"
+"Assets/MaskRender.cs"
+"Assets/MeshIntersection.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/BlockPuzzleController.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/buttonTestScript.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/CameraRotate.cs"
@@ -365,9 +367,11 @@
 "Assets/OpenHaptics/HapticScripts/HapticPlugin.cs"
 "Assets/OpenHaptics/HapticScripts/HapticPluginSafetyScript.cs"
 "Assets/OpenHaptics/HapticScripts/HapticSurface.cs"
+"Assets/QuickOutline/Scripts/Outline.cs"
 "Assets/Scripts/Reveal.cs"
 "Assets/Scripts/SpawnCubes.cs"
 "Assets/ShowOnTouch.cs"
+"Assets/StencilFollower.cs"
 -langversion:9.0
 
 /deterministic

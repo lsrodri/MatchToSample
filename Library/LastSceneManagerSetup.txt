@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/OH.unity
+- path: Assets/Scenes/Rounded Stimulus.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
