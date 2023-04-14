@@ -17,8 +17,9 @@ public class StencilFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(grabber.transform.localPosition.x / multiplier, transform.position.y, grabber.transform.localPosition.z / multiplier);
-    }
+        transform.position = new Vector3(grabber.transform.localPosition.x / multiplier, transform.localPosition.y, grabber.transform.localPosition.z / multiplier);
+        //transform.position = new Vector3(grabber.transform.position.x, grabber.transform.position.y + 1.5f , grabber.transform.position.z );
 
+    }
 
 }

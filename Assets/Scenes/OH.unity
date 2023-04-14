@@ -602,12 +602,12 @@ GameObject:
   - component: {fileID: 653203329}
   - component: {fileID: 653203330}
   m_Layer: 0
-  m_Name: Maze
+  m_Name: Maze_backup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &653203329
 Transform:
   m_ObjectHideFlags: 0
@@ -639,6 +639,7 @@ MonoBehaviour:
   pathCubePrefab: {fileID: 4090858956881741595, guid: cb07697640674d04788784b54c005028, type: 3}
   Haptics: {fileID: 1896115111616518, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
   ProbeProxy: {fileID: 8405211139391252830, guid: 82d40dc4a5a51c04dbeb7ee484b1ac90, type: 3}
+  spotlightFollower: {fileID: 0}
 --- !u!1 &663502711
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +737,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &978021270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978021272}
+  - component: {fileID: 978021271}
+  m_Layer: 0
+  m_Name: Maze
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &978021271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978021270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d371a6ef1c0ad9849b17450ae821a82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubePrefab: {fileID: 4090858956881741595, guid: 141f73f90cb62494c893fb82ccaf513b, type: 3}
+  pathCubePrefab: {fileID: 4090858956881741595, guid: cb07697640674d04788784b54c005028, type: 3}
+  startEndPrefab: {fileID: 919132149155446097, guid: 1caa60f5a9a57334db9ad946f84757c5, type: 3}
+  throughPrefab: {fileID: 919132149155446097, guid: d7d5ac1f9021dd542850b015cbc8c414, type: 3}
+  cornerPrefab: {fileID: 919132149155446097, guid: 64aacf342503cf8458b37bdf04956439, type: 3}
+--- !u!4 &978021272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978021270}
+  m_LocalRotation: {x: 0.00000046083503, y: -0.0072340667, z: 0.0000017470248, w: 0.99997383}
+  m_LocalPosition: {x: -3.8203378, y: -2.5022376, z: -1.0900661}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1027673517
 GameObject:

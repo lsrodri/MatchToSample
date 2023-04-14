@@ -349,6 +349,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/Countdown.cs"
 "Assets/FollowProbe.cs"
 "Assets/HapticToggle.cs"
 "Assets/MaskRender.cs"
@@ -368,10 +369,14 @@
 "Assets/OpenHaptics/HapticScripts/HapticPluginSafetyScript.cs"
 "Assets/OpenHaptics/HapticScripts/HapticSurface.cs"
 "Assets/QuickOutline/Scripts/Outline.cs"
+"Assets/SceneLoader.cs"
+"Assets/Scripts/Maze.cs"
 "Assets/Scripts/Reveal.cs"
 "Assets/Scripts/SpawnCubes.cs"
+"Assets/Scripts/_cleaned_SpawnCubes.cs"
 "Assets/ShowOnTouch.cs"
 "Assets/StencilFollower.cs"
+"Assets/togglemask.cs"
 -langversion:9.0
 
 /deterministic

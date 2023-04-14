@@ -62,7 +62,7 @@ public class SpawnCubes : MonoBehaviour
         // Call the recursive function to generate the path
         GeneratePath(0, 0);
 
-        StartCoroutine(wakeUpHaptics());
+        //StartCoroutine(wakeUpHaptics());
     }
 
     // A recursive function to generate the path

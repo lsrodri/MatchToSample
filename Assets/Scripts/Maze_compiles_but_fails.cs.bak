@@ -1,0 +1,320 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+
+public class Maze : MonoBehaviour
+{
+    public GameObject cubePrefab;
+    public GameObject startEndPrefab;
+    public GameObject throughPrefab;
+    public GameObject cornerPrefab;
+
+    private int nextX = 0;
+    private int nextY = 0;
+
+    private GameObject container;
+
+    private int mazeSize = 5;
+    private bool[,] visited;
+    private int pathLength;
+    private float cubeHeight;
+
+    private int startX = 0;
+    private int startY = 0;
+
+    private List<Vector2Int> path = new List<Vector2Int>();
+
+    private Vector2Int[][] directions = {
+        new Vector2Int[] { new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1) },
+        new Vector2Int[] { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) },
+        new Vector2Int[] { new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(-1, 0) },
+        new Vector2Int[] { new Vector2Int(0, -1), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(1, 0) }
+    };
+
+
+    void Start()
+    {
+
+        // Create a new game object to act as the container
+        var containerObject = new GameObject("Maze");
+
+        // Set the container object as a child of the current object
+        containerObject.transform.SetParent(transform);
+
+        // Set the container object's transform as the container for the maze elements
+        container = containerObject;
+
+
+        for (int x = 0; x < mazeSize; x++)
+        {
+            for (int y = 0; y < mazeSize; y++)
+            {
+                var cube = Instantiate(cubePrefab);
+                cube.transform.position = new Vector3(x, 0, y);
+                cube.transform.localScale = Vector3.one;
+                cube.transform.SetParent(container.transform);
+
+
+                var meshRenderer = cube.AddComponent<MeshRenderer>();
+            }
+        }
+
+        visited = new bool[mazeSize, mazeSize];
+        for (int x = 0; x < mazeSize; x++)
+        {
+            for (int y = 0; y < mazeSize; y++)
+            {
+                visited[x, y] = false;
+            }
+        }
+
+        pathLength = 0;
+        GeneratePath(0, 0);
+    }
+
+    private bool IsPositionValid(int x, int y)
+    {
+        // Check if the position is within the maze bounds
+        return x >= 0 && x < mazeSize && y >= 0 && y < mazeSize;
+    }
+
+    void GeneratePath(int x, int y)
+    {
+        Vector3 currentPosition = new Vector3(x, 0, y);
+
+        var prevX = 0;
+        var prevY = 0;
+
+        int nextX = 0;
+        int nextY = 0;
+
+        visited[x, y] = true;
+
+        if (pathLength == 0)
+        {
+            // Starting position
+            var start = Instantiate(startEndPrefab);
+            start.transform.position = new Vector3(x, 0, y);
+            start.transform.SetParent(container.transform);
+            path.Add(new Vector2Int(x, y));
+
+            // Increment the path length counter
+            pathLength++;
+
+            // Generate a random order of directions to try
+            var randomDirections = directions[UnityEngine.Random.Range(0, directions.GetLength(0))];
+
+            foreach (var direction in randomDirections)
+            {
+                var newX = x + direction.x;
+                var newY = y + direction.y;
+
+                if (IsPositionValid(newX, newY) && !visited[newX, newY])
+                {
+                    GeneratePath(newX, newY);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if (path.Count >= 2)
+            {
+                // Calculate the previous position
+                prevX = path[path.Count - 2].x;
+                prevY = path[path.Count - 2].y;
+            }
+
+            // Calculate the direction from the previous position to the current position
+            var direction = new Vector2Int(x - prevX, y - prevY);
+
+            // Get the index of the current direction in the random directions array
+            var directionIndex = Array.IndexOf(directions[0], direction);
+
+            // Try each direction in a clockwise order starting from the current direction
+            for (int i = 0; i < 4; i++)
+            {
+                // Calculate the index of the next direction in the clockwise order
+                var nextDirectionIndex = (directionIndex + i) % 4;
+
+                if (nextDirectionIndex >= 0 && nextDirectionIndex < directions[0].Length)
+                {
+                    // Calculate the next position based on the next direction
+                    nextX = x + directions[0][nextDirectionIndex].x;
+                    nextY = y + directions[0][nextDirectionIndex].y;
+                }
+
+                // If the next position is the starting position, mark it as visited and return to complete the path
+                if (nextX == startX && nextY == startY)
+                {
+                    visited[nextX, nextY] = true;
+                    path.Add(new Vector2Int(nextX, nextY));
+                    return;
+                }
+
+                // If the next position is valid and not visited, add it to the path and continue recursively
+                if (IsPositionValid(nextX, nextY) && !visited[nextX, nextY])
+                {
+                    // Add the next position to the path
+                    path.Add(new Vector2Int(nextX, nextY));
+
+                    // Calculate the next next position based on the next direction
+                    var nextNextX = x + directions[0][(nextDirectionIndex + 2) % 4].x;
+                    var nextNextY = y + directions[0][(nextDirectionIndex + 2) % 4].y;
+
+                    // If the next next position is valid and not visited, we need to use a "corner" prefab to make a U-turn
+                    if (IsPositionValid(nextNextX, nextNextY) && !visited[nextNextX, nextNextY])
+                    {
+                        // Instantiate the "corner" prefab and position it at the current position
+                        GameObject corner = Instantiate(cornerPrefab, currentPosition, Quaternion.identity);
+
+                        // Rotate the corner prefab to match the direction we are coming from and going to
+                        corner.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                        // Rotate the corner prefab by an additional 180 degrees to make the U-turn
+                        corner.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+
+                        // Set the parent of the corner prefab to the container object
+                        corner.transform.parent = container.transform;
+
+                        // Add the next next position to the path and continue recursively
+                        path.Add(new Vector2Int(nextNextX, nextNextY));
+                        GeneratePath(nextNextX, nextNextY);
+                    }
+                    else
+                    {
+                        // If we can't make a U-turn, we need to use a "through" prefab
+                        GameObject through = Instantiate(throughPrefab, currentPosition, Quaternion.identity);
+
+                        // Rotate the through prefab to match the direction we are coming from and going to
+                        through.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                        // Set the parent of the through prefab to the container object
+                        through.transform.parent = container.transform;
+
+                        // Continue recursively from the next position
+                        GeneratePath(nextX, nextY);
+                    }
+                }
+                else
+                {
+                    // Calculate the angle between the current direction and the next direction
+                    var angle = Vector2.SignedAngle(direction, directions[0][nextDirectionIndex]);
+
+                    // If the angle is -90 degrees, we need to use a "corner" prefab with a 90 degree turn to the left
+                    if (angle == -90f)
+                    {
+                        
+                        // Instantiate the "corner" prefab and position it at the current position
+                        GameObject corner = Instantiate(cornerPrefab, currentPosition, Quaternion.identity);
+                        // Rotate the corner prefab to match the direction we are coming from and going to
+                        corner.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                        // Set the parent of the corner prefab to the container object
+                        corner.transform.parent = container.transform;
+
+                        // Calculate the next next position based on the next direction
+                        var nextNextX = x + directions[0][(nextDirectionIndex + 1) % 4].x;
+                        var nextNextY = y + directions[0][(nextDirectionIndex + 1) % 4].y;
+
+                        // If the next next position is valid and not visited, we need to use a "through" prefab to continue the path
+                        if (IsPositionValid(nextNextX, nextNextY) && !visited[nextNextX, nextNextY])
+                        {
+                            // Add the next next position to the path
+                            path.Add(new Vector2Int(nextNextX, nextNextY));
+
+                            // Instantiate the "through" prefab and position it at the next position
+                            GameObject through = Instantiate(throughPrefab, new Vector3(nextX, 0, nextY), Quaternion.identity);
+
+                            // Rotate the through prefab to match the direction we are coming from and going to
+                            through.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(directions[0][(nextDirectionIndex + 1) % 4].x, 0, directions[0][(nextDirectionIndex + 1) % 4].y));
+
+                            // Set the parent of the through prefab to the container object
+                            through.transform.parent = container.transform;
+
+                            // Continue recursively from the next next position
+                            GeneratePath(nextNextX, nextNextY);
+                        }
+                        else
+                        {
+                            // Continue recursively from the next position
+                            GeneratePath(nextX, nextY);
+                        }
+                    }
+                    // If the angle is 90 degrees, we need to use a "corner" prefab with a 90 degree turn to the right
+                    else if (angle == 90f)
+                    {
+                        // Instantiate the "corner" prefab and position it at the current position
+                        GameObject corner = Instantiate(cornerPrefab, currentPosition, Quaternion.identity);
+
+                        // Rotate the corner prefab to match the direction we are coming from and going to
+                        corner.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                        // Rotate the corner prefab by an additional 180 degrees to make the turn to the right
+                        corner.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+
+                        // Set the parent of the corner prefab to the container object
+                        corner.transform.parent = container.transform;
+
+                        // Calculate the next next position based on the next direction
+                        var nextNextX = x + directions[0][(nextDirectionIndex + 3) % 4].x;
+                        var nextNextY = y + directions[0][(nextDirectionIndex + 3) % 4].y;
+
+                        // If the next next position is valid and not visited, we need to use a "through" prefab to continue the path
+                        if (IsPositionValid(nextNextX, nextNextY) && !visited[nextNextX, nextNextY])
+                        {
+                            // Add the next next position to the path
+                            path.Add(new Vector2Int(nextNextX, nextNextY));
+
+                            // Instantiate the "through" prefab and position it at the current position
+                            GameObject through = Instantiate(throughPrefab, currentPosition, Quaternion.identity);
+
+                            // Rotate the through prefab to match the direction we are coming from and going to
+                            through.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                            // Set the parent of the through prefab to the container object
+                            through.transform.parent = container.transform;
+
+                            // Continue recursively from the next next position
+                            GeneratePath(nextNextX, nextNextY);
+                        }
+                        else
+                        {
+                            // If we can't continue the path, we need to use a "corner" prefab to make a turn
+                            GameObject cornerPrefabInstance = Instantiate(cornerPrefab, currentPosition, Quaternion.identity);
+
+                            // Rotate the corner prefab to match the direction we are coming from and going to
+                            cornerPrefabInstance.transform.rotation = Quaternion.FromToRotation(Vector3.right, new Vector3(direction.x, 0, direction.y));
+
+                            // If the angle is -90 degrees, we need to make a left turn
+                            if (angle == -90f)
+                            {
+                                // Rotate the corner prefab by 90 degrees to make the left turn
+                                cornerPrefabInstance.transform.rotation *= Quaternion.Euler(0f, 90f, 0f);
+                            }
+                            // If the angle is 90 degrees, we need to make a right turn
+                            else if (angle == 90f)
+                            {
+                                // Rotate the corner prefab by 270 degrees to make the right turn
+                                cornerPrefabInstance.transform.rotation *= Quaternion.Euler(0f, 270f, 0f);
+                            }
+
+                            // Set the parent of the corner prefab to the container object
+                            cornerPrefabInstance.transform.parent = container.transform;
+
+                            // Continue recursively from the next position
+                            GeneratePath(nextX, nextY);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+
+    }
