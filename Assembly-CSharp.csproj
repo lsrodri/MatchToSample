@@ -62,6 +62,7 @@
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\HapticMouse.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticSurface.cs" />
     <Compile Include="Assets\Scripts\SpawnCubes.cs" />
+    <Compile Include="Assets\TrialMatch.cs" />
     <Compile Include="Assets\togglemask.cs" />
     <Compile Include="Assets\Scripts\Maze.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticPlugin.cs" />
@@ -75,12 +76,14 @@
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\MetersDemo.cs" />
     <Compile Include="Assets\ShowOnTouch.cs" />
+    <Compile Include="Assets\Scripts\CsvReader.cs" />
     <Compile Include="Assets\FollowProbe.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticEffect.cs" />
     <Compile Include="Assets\MaskRender.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\BlockPuzzleController.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\TextureDemoScript.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\VibrationDemoScript.cs" />
+    <Compile Include="Assets\AddTagWindow.cs" />
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
