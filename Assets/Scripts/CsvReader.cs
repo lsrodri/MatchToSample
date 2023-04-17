@@ -32,9 +32,23 @@ public class CsvReader : MonoBehaviour
         Dictionary<string, string> rowData = null;
 
         // Load the CSV file
-        string filePath = "../MatchToSample/Assets/Stimuli/" + csvFileName;
-        string[] lines = File.ReadAllLines(filePath);
+        // string filePath = "../MatchToSample/Assets/Stimuli/" + csvFileName;
+        
+        string folderName = "Stimuli";
+        string fileName = "match_to_sample_data.csv";
+        string filePath = Path.Combine(Application.dataPath, folderName, fileName);
 
+        // if (File.Exists(filePath))
+        // {
+        //     Debug.Log("File exists!");
+        // }
+        // else
+        // {
+        //     Debug.Log("File does not exist!");
+        // }
+
+        string[] lines = File.ReadAllLines(filePath);
+        
         // Get the header row
         string[] headers = lines[0].Split(',');
 
@@ -43,6 +57,8 @@ public class CsvReader : MonoBehaviour
         {
             // Split the row into its values
             string[] values = lines[i].Split(',');
+
+            // Debug.Log("values[0]'"+values[0]+"'participantId"+"'"+participantId+"'"+"'values[1]"+values[1]+"'trialNumber"+"'"+trialNumber+"'");
 
             // Check if the row matches the participant ID and trial number
             if (values[0] == participantId && values[1] == trialNumber)
