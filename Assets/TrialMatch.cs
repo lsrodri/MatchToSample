@@ -21,11 +21,17 @@ public class TrialMatch : MonoBehaviour
     private bool rightKeyPressed = false;
     private bool isAnswered = false;
 
+    // Time limit, imported from csv
     public float timeLimit;
     public TextMeshProUGUI timerText;
+    private bool timeIsUp = false;
     public bool loadScene;
     private float currentTime;
     public string sceneName;
+
+    // Canvas references for requesting answers on countdown end
+    public Canvas countdownCanvas;
+    public Canvas promptCanvas;
 
     public Material mat;
 
@@ -35,10 +41,15 @@ public class TrialMatch : MonoBehaviour
     string comparisonTime;
     string condition;
 
+    GameObject sampleObject;
+    GameObject foilObject;
+
     // Start is called before the first frame update
     void Start()
     {
 
+        promptCanvas.enabled = false;
+        
         trialNumber = PlayerPrefs.HasKey("trialNumber") ? PlayerPrefs.GetString("trialNumber") : adhocTrialNumber;
         participantId = PlayerPrefs.HasKey("participantId") ? PlayerPrefs.GetString("participantId") : adhocParticipantId;
 
@@ -66,8 +77,8 @@ public class TrialMatch : MonoBehaviour
             Debug.LogError($"Could not find row with Participant ID {participantId} and Trial Number {trialNumber}");
         }
 
-        GameObject sampleObject = GameObject.Find(sampleNumber + "s");
-        GameObject foilObject = GameObject.Find(sampleNumber + "f");
+        sampleObject = GameObject.Find(sampleNumber + "s");
+        foilObject = GameObject.Find(sampleNumber + "f");
 
         if (sampleOrder == "left")
         {
@@ -120,13 +131,19 @@ public class TrialMatch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Managing and rendering the countdown
-        currentTime -= Time.deltaTime;
-        timerText.text = currentTime.ToString("0");
-
-        if (currentTime <= 0 && loadScene)
+        if (!timeIsUp)
         {
-            SceneManager.LoadScene(sceneName);
+            // Managing and rendering the countdown
+            currentTime -= Time.deltaTime;
+            timerText.text = currentTime.ToString("0");
+        }
+        
+
+        if (currentTime <= 0 && promptCanvas.enabled == false)
+        {
+            timeIsUp = true;
+            // SceneManager.LoadScene(sceneName);
+            PromptAnswer();
         }
 
         // Capture arrow key input
@@ -156,9 +173,8 @@ public class TrialMatch : MonoBehaviour
     {
         // Create a new row for the CSV file
         string[] rowData = new string[] { participantId, answer };
-
         // Check if the file exists
-        string filePath = Path.Combine(Application.dataPath, participantId + ".csv");
+        string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
         bool fileExists = File.Exists(filePath);
 
         // Write the row to the CSV file
@@ -172,5 +188,13 @@ public class TrialMatch : MonoBehaviour
 
             sw.WriteLine(string.Join(",", rowData));
         }
+    }
+
+    private void PromptAnswer()
+    {
+        countdownCanvas.enabled = false;
+        promptCanvas.enabled = true;
+        sampleObject.SetActive(false);
+        foilObject.SetActive(false);
     }
 }
