@@ -45,17 +45,17 @@ public class TrialSample : MonoBehaviour
             sampleNumber = rowData["Sample Number"];
             sampleTime = rowData["Sample Time"];
             condition = rowData["Condition"];
+            
         } 
         else
         {
             // Manual data for OSX csv issues
-            sampleNumber = "30";
-            sampleTime = "10000";
-            condition = "V";
+            sampleNumber = "80";
+            sampleTime = "100000";
+            condition = "VH";
 
             Debug.LogError($"Could not find row with Participant ID {participantId} and Trial Number {trialNumber}");
         }
-
         GameObject sampleObject = GameObject.Find(sampleNumber + "s");
 
         sampleObject.transform.localPosition = new Vector3(-1.78999996f,0.0500000007f,-0.479999989f);
@@ -80,9 +80,14 @@ public class TrialSample : MonoBehaviour
         }
 
         // Unused for now: Sample outside viewport: Vector3(-8.56000042,0.0500000007,-0.50999999), Foil: Vector3(8.05000019,0.0500000007,-0.50999999)
-    
-        // Transforming the csv time in ms to seconds for the countdown
-        timeLimit = float.Parse(sampleTime) / 1000f;
+  
+
+        // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
+        if (timeLimit == 0)
+        {
+            // Transforming the csv time in ms to seconds for the countdown
+            timeLimit = float.Parse(sampleTime) / 1000f;
+        }
 
         // Initializing the timer
         currentTime = timeLimit;

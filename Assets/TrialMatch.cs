@@ -17,7 +17,6 @@ public class TrialMatch : MonoBehaviour
     public string adhocParticipantId;
 
     // Variables needed for capturing an answer and saving it in a csv
-    private string resultsCsvFilename;
     private bool leftKeyPressed = false;
     private bool rightKeyPressed = false;
     private bool isAnswered = false;
@@ -72,13 +71,13 @@ public class TrialMatch : MonoBehaviour
 
         if (sampleOrder == "left")
         {
-            sampleObject.transform.localPosition = new Vector3(-3.39299989f, 0.0500000007f, -0.50999999f);
-            foilObject.transform.localPosition = new Vector3(3.21f, 0.0500000007f, -0.50999999f);
+            sampleObject.transform.localPosition = new Vector3(-3.34f, 0.5500000007f, -0.50999999f);
+            foilObject.transform.localPosition = new Vector3(3.21f, 0.5500000007f, -0.50999999f);
         } 
         else if (sampleOrder == "right")
         {
-            sampleObject.transform.localPosition = new Vector3(-0.159999996f, 0.0500000007f, -0.50999999f);
-            foilObject.transform.localPosition = new Vector3(-0.01f, 0.0500000007f, -0.50999999f);
+            sampleObject.transform.localPosition = new Vector3(-0.1499996f, 0.5500000007f, -0.50999999f);
+            foilObject.transform.localPosition = new Vector3(0.0199995f, 0.5500000007f, -0.50999999f);
         }
 
         sampleObject.transform.Find("default").GetComponent<Renderer>().material = mat;
@@ -107,8 +106,12 @@ public class TrialMatch : MonoBehaviour
             foilObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
         }
 
-        // Transforming the csv time in ms to seconds for the countdown
-        timeLimit = float.Parse(comparisonTime) / 1000f;
+        // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
+        if (timeLimit == 0)
+        {
+            // Transforming the csv time in ms to seconds for the countdown
+            timeLimit = float.Parse(comparisonTime) / 1000f;
+        }
 
         // Initializing the timer
         currentTime = timeLimit;
@@ -146,6 +149,28 @@ public class TrialMatch : MonoBehaviour
         {
             SaveAnswerToCsv("right");
             isAnswered = true;
+        }
+    }
+
+    private void SaveAnswerToCsv(string answer)
+    {
+        // Create a new row for the CSV file
+        string[] rowData = new string[] { participantId, answer };
+
+        // Check if the file exists
+        string filePath = Path.Combine(Application.dataPath, participantId + ".csv");
+        bool fileExists = File.Exists(filePath);
+
+        // Write the row to the CSV file
+        using (StreamWriter sw = new StreamWriter(filePath, true))
+        {
+            if (!fileExists)
+            {
+                // Add the header row if the file did not exist previously
+                sw.WriteLine("Participant ID,Answer");
+            }
+
+            sw.WriteLine(string.Join(",", rowData));
         }
     }
 }
