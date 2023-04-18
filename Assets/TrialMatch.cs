@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class TrialMatch : MonoBehaviour
 {
+    // Variables to be read from Player Preferences, set by previous scenes
     private string trialNumber;
     private string participantId;
 
+
+    // Possibility of setting manual variables for dev and debugging
     public string adhocTrialNumber;
     public string adhocParticipantId;
+
+    // Variables needed for capturing an answer and saving it in a csv
+    private string resultsCsvFilename;
+    private bool leftKeyPressed = false;
+    private bool rightKeyPressed = false;
+    private bool isAnswered = false;
 
     public float timeLimit;
     public TextMeshProUGUI timerText;
@@ -107,12 +117,35 @@ public class TrialMatch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Managing and rendering the countdown
         currentTime -= Time.deltaTime;
         timerText.text = currentTime.ToString("0");
 
         if (currentTime <= 0 && loadScene)
         {
             SceneManager.LoadScene(sceneName);
+        }
+
+        // Capture arrow key input
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            leftKeyPressed = true;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rightKeyPressed = true;
+        }
+
+        // Save the answer to the CSV file
+        if (leftKeyPressed && !isAnswered)
+        {
+            SaveAnswerToCsv("left");
+            isAnswered = true;
+        }
+        else if (rightKeyPressed && !isAnswered)
+        {
+            SaveAnswerToCsv("right");
+            isAnswered = true;
         }
     }
 }

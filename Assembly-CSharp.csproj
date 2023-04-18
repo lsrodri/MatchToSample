@@ -45,6 +45,7 @@
      <Compile Include="Assets/togglemask.cs" />
      <Compile Include="Assets/Scripts/Maze.cs" />
      <Compile Include="Assets/OpenHaptics/HapticScripts/HapticPlugin.cs" />
+     <Compile Include="Assets/Scripts/TrialSample.cs" />
      <Compile Include="Assets/HapticToggle.cs" />
      <Compile Include="Assets/OpenHaptics/HapticScripts/HapticGrabber.cs" />
      <Compile Include="Assets/Scripts/Reveal.cs" />
@@ -66,7 +67,6 @@
      <Compile Include="Assets/Countdown.cs" />
      <Compile Include="Assets/OpenHaptics/HapticScripts/HapticFitToCamera.cs" />
      <Compile Include="Assets/OpenHaptics/HapticDemos/DemoScripts/ErrorDemo.cs" />
-     <Compile Include="Assets/Scripts/TrialSample.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
