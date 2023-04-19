@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class TrialSample : MonoBehaviour
 {
+    // This Boolean is used to check whether the trial condition should affect the sample part as it does with matching
+    public bool sampleCondition;
     
     private string trialNumber;
     private string participantId;
@@ -62,25 +64,25 @@ public class TrialSample : MonoBehaviour
 
         sampleObject.transform.Find("default").GetComponent<Renderer>().material = mat;
 
-        if (condition == "V")
+        // Only modifying the rendering of the sample if allowed by this public boolean
+        if(sampleCondition)
         {
-            // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
-            // Removing the tag, else the new instance comes tagged and gets mapped
-            sampleObject.transform.Find("default").tag = "Untagged";
-            GameObject newSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
-            // Set the parent of the new instance to the parent of the original object, else it's out of position
-            newSampleObject.transform.SetParent(sampleObject.transform.parent);
-            // Destroying the original
-            Destroy(sampleObject);
-        } 
-        else if(condition == "H")
-        {
-            sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
-            
+            if (condition == "V")
+            {
+                // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
+                // Removing the tag, else the new instance comes tagged and gets mapped
+                sampleObject.transform.Find("default").tag = "Untagged";
+                GameObject newSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
+                // Set the parent of the new instance to the parent of the original object, else it's out of position
+                newSampleObject.transform.SetParent(sampleObject.transform.parent);
+                // Destroying the original
+                Destroy(sampleObject);
+            } 
+            else if(condition == "H")
+            {
+                sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
+            }
         }
-
-        // Unused for now: Sample outside viewport: Vector3(-8.56000042,0.0500000007,-0.50999999), Foil: Vector3(8.05000019,0.0500000007,-0.50999999)
-  
 
         // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
         if (timeLimit == 0)

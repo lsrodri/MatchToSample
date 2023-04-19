@@ -171,8 +171,12 @@ public class TrialMatch : MonoBehaviour
 
     private void SaveAnswerToCsv(string answer)
     {
+        // Time since the scene was loaded, saved as participant reaction time
+        string elapsedTime = Time.timeSinceLevelLoad.ToString();
+        string correctness = answer == sampleOrder ? "true" : "false";
+
         // Create a new row for the CSV file
-        string[] rowData = new string[] { participantId, answer };
+        string[] rowData = new string[] { participantId, trialNumber, answer, correctness, elapsedTime };
         // Check if the file exists
         string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
         bool fileExists = File.Exists(filePath);
@@ -183,7 +187,7 @@ public class TrialMatch : MonoBehaviour
             if (!fileExists)
             {
                 // Add the header row if the file did not exist previously
-                sw.WriteLine("Participant ID,Answer");
+                sw.WriteLine("Participant ID,Trial Number,Response,Correctness,Reaction Time");
             }
 
             sw.WriteLine(string.Join(",", rowData));
