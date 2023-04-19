@@ -64,6 +64,6 @@
 			#pragma vertex vert
 			#pragma fragment fragGreen
 			ENDCG
-		}		
+		}
 	}
 }

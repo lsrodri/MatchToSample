@@ -10,16 +10,15 @@ public class StencilFollower : MonoBehaviour
     public float multiplier = 1f;
     void Start()
     {
-        
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        //transform.position = new Vector3(grabber.transform.localPosition.x / multiplier, transform.localPosition.y, grabber.transform.localPosition.z / multiplier);
-        //transform.position = new Vector3(grabber.transform.position.x, grabber.transform.position.y + 1.5f , grabber.transform.position.z );
         transform.position = new Vector3(grabber.transform.localPosition.x / multiplier, transform.position.y, grabber.transform.localPosition.z / multiplier);
     }
+
 
 }
