@@ -53,6 +53,9 @@ public class TrialMatch : MonoBehaviour
         trialNumber = PlayerPrefs.HasKey("trialNumber") ? PlayerPrefs.GetString("trialNumber") : adhocTrialNumber;
         participantId = PlayerPrefs.HasKey("participantId") ? PlayerPrefs.GetString("participantId") : adhocParticipantId;
 
+        Debug.Log("trialNumber: " + trialNumber);
+        Debug.Log("participantId: " + participantId);
+
         CsvReader csvReader = FindObjectOfType<CsvReader>();
         Dictionary<string, string> rowData = csvReader.ReadCsvRow(participantId, trialNumber);
 
@@ -142,7 +145,6 @@ public class TrialMatch : MonoBehaviour
         if (currentTime <= 0 && promptCanvas.enabled == false)
         {
             timeIsUp = true;
-            // SceneManager.LoadScene(sceneName);
             PromptAnswer();
         }
 
@@ -192,6 +194,25 @@ public class TrialMatch : MonoBehaviour
 
             sw.WriteLine(string.Join(",", rowData));
         }
+
+        // After writing current trial data, setting the next trial
+        nextTrial();
+    }
+
+    private void nextTrial()
+    {
+        // to-do: check count for csv participant id to check if this is the last trial
+        // Setting the next trial
+        int nextTrial = int.Parse(trialNumber) + 1;
+        PlayerPrefs.SetString("trialNumber", nextTrial.ToString());
+
+        Debug.Log("Next trial: " + nextTrial);
+
+        if(loadScene)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        // 
     }
 
     private void PromptAnswer()
