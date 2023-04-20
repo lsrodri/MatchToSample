@@ -10,6 +10,15 @@ public class Cutout : MonoBehaviour
     public Texture holeTexture;
     public Texture plainTexture;
 
+    // Haptic device for visibility toggling
+    public GameObject sphere;
+    public GameObject cylinder;
+
+    // Get the MeshRenderer component of the game object
+    private MeshRenderer sphereMeshRenderer;
+    private MeshRenderer cylinderMeshRenderer;
+
+
     private Renderer textureRenderer;
 
     void Start()
@@ -40,7 +49,14 @@ public class Cutout : MonoBehaviour
         if (collision.gameObject == targetObject.gameObject)
         {
             textureRenderer.material.mainTexture = holeTexture;
+
+            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
+            sphereMeshRenderer.enabled = false;
+            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
+            cylinderMeshRenderer.enabled = false;
         }
+
+        
     }
 
     private void OnCollisionExit(Collision collision)
@@ -48,6 +64,11 @@ public class Cutout : MonoBehaviour
         if (collision.gameObject == targetObject.gameObject)
         {
             textureRenderer.material.mainTexture = plainTexture;
+
+            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
+            sphereMeshRenderer.enabled = true;
+            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
+            cylinderMeshRenderer.enabled = true;
         }
     }
 
