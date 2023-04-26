@@ -3571,11 +3571,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sampleCondition: 0
-  adhocTrialNumber: 1
-  adhocParticipantId: 1
-  timeLimit: 100
+  adhocTrialNumber: 
+  adhocParticipantId: 
+  timeLimit: 0
   timerText: {fileID: 1614106558}
-  loadScene: 0
+  loadScene: 1
   sceneName: Pause
   mat: {fileID: 2100000, guid: e31d4c4ba6ed73248a92a91b5d38144f, type: 2}
 --- !u!4 &889678191

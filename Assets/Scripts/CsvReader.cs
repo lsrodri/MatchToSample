@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Text.RegularExpressions;
+
 
 public class CsvReader : MonoBehaviour
 {
@@ -26,6 +28,20 @@ public class CsvReader : MonoBehaviour
         }
     }
 
+    public static string RemoveNonDigits(string input)
+    {
+        string result = "";
+        foreach (char c in input)
+        {
+            if (char.IsDigit(c))
+            {
+                result += c;
+            }
+        }
+        return result;
+    }
+
+
     // Reads the CSV file and returns a dictionary containing the data for a specific row
     public Dictionary<string, string> ReadCsvRow(string participantId, string trialNumber)
     {
@@ -38,17 +54,21 @@ public class CsvReader : MonoBehaviour
         string fileName = "match_to_sample_data.csv";
         string filePath = Path.Combine(Application.dataPath, folderName, fileName);
 
-        // if (File.Exists(filePath))
-        // {
-        //     Debug.Log("File exists!");
-        // }
-        // else
-        // {
-        //     Debug.Log("File does not exist!");
-        // }
+        if (File.Exists(filePath))
+        {
+            Debug.Log("File exists!");
+        }
+        else
+        {
+            Debug.Log("File does not exist!");
+        }
 
         string[] lines = File.ReadAllLines(filePath);
-        
+
+        //Debug.Log(lines[2].ToString());
+
+        //Debug.Log(lines.Length);
+
         // Get the header row
         string[] headers = lines[0].Split(',');
 
@@ -58,10 +78,13 @@ public class CsvReader : MonoBehaviour
             // Split the row into its values
             string[] values = lines[i].Split(',');
 
-            // Debug.Log("values[0]'"+values[0]+"'participantId"+"'"+participantId+"'"+"'values[1]"+values[1]+"'trialNumber"+"'"+trialNumber+"'");
+            //Debug.Log("values[0] - '" + values[0] + "', participantId - '" + participantId + "', " + "'values[1] - '" + values[1] + "', trialNumber - '" + trialNumber + "'");
+            //Debug.Log(RemoveNonDigits(values[0]) == RemoveNonDigits(participantId));
+
 
             // Check if the row matches the participant ID and trial number
-            if (values[0] == participantId && values[1] == trialNumber)
+            if (RemoveNonDigits(values[0]) == RemoveNonDigits(participantId) && RemoveNonDigits(values[1]) == RemoveNonDigits(trialNumber))
+            //if (int.Parse(values[0]) == int.Parse(participantId) && int.Parse(values[1]) == int.Parse(trialNumber))
             {
                 // Create a new dictionary to store the row data
                 rowData = new Dictionary<string, string>();
