@@ -1,7 +1,3 @@
-Participant ID,Trial Number,Response,Correctness,Reaction Time
-1,22,left,false,11.21738
-1,22,right,true,1.924141
-1,22,left,false,0.5203364
-1,22,left,false,6.024628
-1,22,left,false,21.30494
-1,23,left,true,12.01139
+Participant ID,Trial Number,Response,Correctness,Reaction Time, Start Timestamp, End Timestamp
+1,21,left,true,34.81779,2023-04-27 13:13:19.110,2023-04-27 13:13:53.940
+1,22,left,true,58.26644,2023-04-27 13:14:28.372,2023-04-27 13:15:26.640

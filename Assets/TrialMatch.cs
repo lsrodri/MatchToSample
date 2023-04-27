@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,10 @@ public class TrialMatch : MonoBehaviour
     public bool loadScene;
     private float currentTime;
     public string sceneName;
+
+    // Timestamps
+    private string startTimestamp;
+    private string answerTimestamp;
 
     // Canvas references for requesting answers on countdown end
     public Canvas countdownCanvas;
@@ -129,6 +134,8 @@ public class TrialMatch : MonoBehaviour
 
         // Initializing the timer
         currentTime = timeLimit;
+
+        startTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
     }
 
     // Update is called once per frame
@@ -177,8 +184,10 @@ public class TrialMatch : MonoBehaviour
         string elapsedTime = Time.timeSinceLevelLoad.ToString();
         string correctness = answer == sampleOrder ? "true" : "false";
 
+        answerTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
         // Create a new row for the CSV file
-        string[] rowData = new string[] { participantId, trialNumber, answer, correctness, elapsedTime };
+        string[] rowData = new string[] { participantId, trialNumber, answer, correctness, elapsedTime, startTimestamp, answerTimestamp };
         // Check if the file exists
         string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
         bool fileExists = File.Exists(filePath);
@@ -189,7 +198,7 @@ public class TrialMatch : MonoBehaviour
             if (!fileExists)
             {
                 // Add the header row if the file did not exist previously
-                sw.WriteLine("Participant ID,Trial Number,Response,Correctness,Reaction Time");
+                sw.WriteLine("Participant ID,Trial Number,Response,Correctness,Reaction Time, Start Timestamp, End Timestamp");
             }
 
             sw.WriteLine(string.Join(",", rowData));

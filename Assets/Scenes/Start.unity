@@ -609,8 +609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e326455f0cd270142bcdd572b0a2a82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantId: {fileID: 2107082883}
-  trialNumber: {fileID: 1366172200}
+  participantIdText: {fileID: 2107082883}
+  trialNumberText: {fileID: 1366172200}
 --- !u!1 &600357724
 GameObject:
   m_ObjectHideFlags: 0
