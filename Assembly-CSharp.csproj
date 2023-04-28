@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Reveal.cs" />
     <Compile Include="Assets\MeshIntersection.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticPluginSafetyScript.cs" />
+    <Compile Include="Assets\HapticDeviceControl.cs" />
     <Compile Include="Assets\StencilFollower.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\CameraRotate.cs" />
     <Compile Include="Assets\SceneLoader.cs" />

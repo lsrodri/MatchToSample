@@ -353,6 +353,7 @@
 "Assets/Countdown.cs"
 "Assets/Cutout.cs"
 "Assets/FollowProbe.cs"
+"Assets/HapticDeviceControl.cs"
 "Assets/HapticToggle.cs"
 "Assets/MaskRender.cs"
 "Assets/MeshIntersection.cs"

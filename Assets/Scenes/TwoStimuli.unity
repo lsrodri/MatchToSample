@@ -3466,6 +3466,7 @@ MonoBehaviour:
   timerText: {fileID: 1614106558}
   loadScene: 1
   sceneName: PostAnswer
+  plane: {fileID: 663502711}
   countdownCanvas: {fileID: 1555999967}
   promptCanvas: {fileID: 1853803576}
   mat: {fileID: 2100000, guid: e31d4c4ba6ed73248a92a91b5d38144f, type: 2}
@@ -7978,8 +7979,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e326455f0cd270142bcdd572b0a2a82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantId: {fileID: 0}
-  trialNumber: {fileID: 0}
+  participantIdText: {fileID: 0}
+  trialNumberText: {fileID: 0}
 --- !u!114 &1132176870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9903,8 +9904,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e326455f0cd270142bcdd572b0a2a82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantId: {fileID: 0}
-  trialNumber: {fileID: 0}
+  participantIdText: {fileID: 0}
+  trialNumberText: {fileID: 0}
 --- !u!114 &1378039986
 MonoBehaviour:
   m_ObjectHideFlags: 0

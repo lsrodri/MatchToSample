@@ -30,6 +30,8 @@ public class TrialMatch : MonoBehaviour
     private float currentTime;
     public string sceneName;
 
+    public GameObject plane;
+
     // Timestamps
     private string startTimestamp;
     private string answerTimestamp;
@@ -104,6 +106,10 @@ public class TrialMatch : MonoBehaviour
 
         if (condition == "V")
         {
+            // Moving the background plane to stop device for dropping and to allow proble to glide through stimuli
+            plane.transform.SetPositionAndRotation(new Vector3(0.27f, -0.9f, 0.508f), new Quaternion(0f, 0f, 0f, 0f));
+            plane.GetComponent<Renderer>().enabled = false;
+
             // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
             // Removing the tag, else the new instance comes tagged and gets mapped
             sampleObject.transform.Find("default").tag = "Untagged";
