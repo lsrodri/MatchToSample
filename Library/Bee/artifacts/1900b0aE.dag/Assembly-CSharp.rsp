@@ -355,6 +355,7 @@
 "Assets/FollowProbe.cs"
 "Assets/HapticDeviceControl.cs"
 "Assets/HapticToggle.cs"
+"Assets/HideProbe.cs"
 "Assets/MaskRender.cs"
 "Assets/MeshIntersection.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/BlockPuzzleController.cs"
@@ -382,6 +383,7 @@
 "Assets/ShowOnTouch.cs"
 "Assets/StencilFollower.cs"
 "Assets/togglemask.cs"
+"Assets/Trial.cs"
 "Assets/TrialMatch.cs"
 -langversion:9.0
 

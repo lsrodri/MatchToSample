@@ -55,8 +55,19 @@ public class Cutout : MonoBehaviour
             cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
             cylinderMeshRenderer.enabled = false;
         }
+    }
 
-        
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject == targetObject.gameObject)
+        {
+            textureRenderer.material.mainTexture = holeTexture;
+
+            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
+            sphereMeshRenderer.enabled = false;
+            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
+            cylinderMeshRenderer.enabled = false;
+        }
     }
 
     private void OnCollisionExit(Collision collision)

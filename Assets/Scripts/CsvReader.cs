@@ -54,14 +54,14 @@ public class CsvReader : MonoBehaviour
         string fileName = "match_to_sample_data.csv";
         string filePath = Path.Combine(Application.dataPath, folderName, fileName);
 
-        if (File.Exists(filePath))
-        {
-            Debug.Log("File exists!");
-        }
-        else
-        {
-            Debug.Log("File does not exist!");
-        }
+        //if (File.Exists(filePath))
+        //{
+        //    Debug.Log("File exists!");
+        //}
+        //else
+        //{
+        //    Debug.Log("File does not exist!");
+        //}
 
         string[] lines = File.ReadAllLines(filePath);
 
