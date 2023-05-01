@@ -26,7 +26,7 @@ public class Trial : MonoBehaviour
     private bool isAnswered = false;
 
     // Time limit, imported from csv
-    public float timeLimit;
+    public float timeLimit = 0f;
     public TextMeshProUGUI timerText;
     private bool timeIsUp = false;
     public bool loadScene;
@@ -51,6 +51,7 @@ public class Trial : MonoBehaviour
     public Canvas countdownCanvas;
     public Canvas promptCanvas;
     public Canvas pauseCanvas;
+    public TextMeshProUGUI pauseCountdownText;
 
     public float pauseLength;
 
@@ -68,6 +69,8 @@ public class Trial : MonoBehaviour
     private CsvReader csvReader;
     private Dictionary<string, string> rowData;
 
+    private bool pauseBool = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,11 +78,25 @@ public class Trial : MonoBehaviour
         promptCanvas.enabled = false;
         pauseCanvas.enabled = false;
 
-        trialNumber = PlayerPrefs.HasKey("trialNumber") ? PlayerPrefs.GetString("trialNumber") : adhocTrialNumber;
-        participantId = PlayerPrefs.HasKey("participantId") ? PlayerPrefs.GetString("participantId") : adhocParticipantId;
+        if (adhocTrialNumber != "")
+        {
+            trialNumber = adhocTrialNumber;
+        }
+        else
+        {
+            trialNumber = PlayerPrefs.HasKey("trialNumber") ? PlayerPrefs.GetString("trialNumber") : adhocTrialNumber;
+        }
 
-        Debug.Log("trialNumber: " + trialNumber);
-        Debug.Log("participantId: " + participantId);
+        if (adhocParticipantId != "")
+        {
+            participantId = adhocParticipantId;
+        }
+        else
+        {
+            participantId = PlayerPrefs.HasKey("participantId") ? PlayerPrefs.GetString("participantId") : adhocParticipantId;
+        }
+        
+        
 
         csvReader = FindObjectOfType<CsvReader>();
 
@@ -87,30 +104,40 @@ public class Trial : MonoBehaviour
         maskCubeRight = GameObject.Find("MaskCubeRight");
         maskCubeSample = GameObject.Find("MaskCubeSample");
 
-        startTrial();
+        startTrial("sample");
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(phase);
         if (phase == 1)
         {
             currentTime -= Time.deltaTime;
-            timerText.text = currentTime.ToString("0");
+            if (pauseBool)
+            {
+                pauseCountdownText.text = currentTime.ToString("0");
+            }
+            else
+            {
+                timerText.text = currentTime.ToString("0");
+            }
 
             if (currentTime <= 0)
             {
-                if (!pauseCanvas.enabled)
+                // If time is up during pause, this means that the first phase is over and the second phase should be loaded
+                if (pauseBool)
                 {
-                    startPause(2);
+                    currentTime = float.Parse(comparisonTime) / 1000f;
+                    pauseCanvas.enabled = false;
+                    pauseBool = false;
+                    startTrial("match");
+                    
                 }
                 else
                 {
-                    // If time is up after canvas is shown, this means that the first phase is over and the second phase should be loaded
-                    phase = 2;
-                    currentTime = float.Parse(comparisonTime) / 1000f;
-                    pauseCanvas.enabled = false;
-                    startTrial();
+                    startPause(2);
+
                 }
             }
         }
@@ -120,24 +147,43 @@ public class Trial : MonoBehaviour
             {
                 // Managing and rendering the countdown
                 currentTime -= Time.deltaTime;
-                timerText.text = currentTime.ToString("0");
-            }
-        
 
+                if (pauseBool)
+                {
+                    pauseCountdownText.text = currentTime.ToString("0");
+                }
+                else
+                {
+                    timerText.text = currentTime.ToString("0");
+                }
+
+            }
+
+            // If time is over and the answer prompt is invisible, show it
             if (currentTime <= 0 && promptCanvas.enabled == false)
             {
                 timeIsUp = true;
                 PromptAnswer();
+            }
+            
+            // If time is up from the answer prompt, start a new trial from the first phase
+            if (currentTime <= 0 && pauseBool == true)
+            {
+                
+                startTrial("sample");
+                
             }
 
             // Capture arrow key input
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 leftKeyPressed = true;
+                Debug.Log("left");
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
                 rightKeyPressed = true;
+                Debug.Log("right");
             }
 
             // Save the answer to the CSV file
@@ -145,17 +191,34 @@ public class Trial : MonoBehaviour
             {
                 SaveAnswerToCsv("left");
                 isAnswered = true;
+                timeIsUp = false;
             }
             else if (rightKeyPressed && !isAnswered)
             {
                 SaveAnswerToCsv("right");
                 isAnswered = true;
+                timeIsUp = false;
             }
         }
     }
 
-    private void startTrial()
+    private void startTrial(string trialPhase)
     {
+
+        timeIsUp = false;
+
+        pauseBool = false;
+
+        isAnswered = false;
+
+        // Resetting answer keys
+        leftKeyPressed = false;
+        rightKeyPressed = false;
+
+        pauseCanvas.enabled = false;
+        promptCanvas.enabled = false;
+
+        countdownCanvas.enabled = true;
 
         rowData = csvReader.ReadCsvRow(participantId, trialNumber);
 
@@ -183,9 +246,17 @@ public class Trial : MonoBehaviour
         sampleObject = GameObject.Find(sampleNumber + "s");
         sampleObject.transform.Find("default").GetComponent<Renderer>().material = mat;
 
-        if (phase == 1)
+        // Checking for existing sample instances left from the V condition
+        if (GameObject.Find("VConditionSample"))
+        {
+            Destroy(GameObject.Find("VConditionSample"));
+        }
+
+        if (trialPhase == "sample")
         {
             // to-do: find position for single stimulus, duplicate barriers to display here, hide other barrier set
+
+            phase = 1;
 
             // Central position for sample stimulus
             sampleObject.transform.localPosition = new Vector3(-1.76999998f, 0.5500000007f, -0.50999999f);
@@ -198,7 +269,6 @@ public class Trial : MonoBehaviour
             maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -0.448236823f, -0.0400003791f);
             maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -2.448236823f, -0.0400003791f);
             maskCubeRight.transform.localPosition = new Vector3(1.66999972f, -2.448236823f, -0.0400003791f);
-            
 
             // As far as our understanding goes, conditions only apply to the first phase because the second needs to resemble real-world conditions, in this case, visuohaptic.
             // If this changes, we would only need to remove this conditional statament below
@@ -211,11 +281,15 @@ public class Trial : MonoBehaviour
                 // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
                 // Removing the tag, else the new instance comes tagged and gets mapped
                 sampleObject.transform.Find("default").tag = "Untagged";
+
                 GameObject newSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
+
+                newSampleObject.name = "VConditionSample";
                 // Set the parent of the new instance to the parent of the original object, else it's out of position
                 newSampleObject.transform.SetParent(sampleObject.transform.parent);
+
                 // Destroying the original
-                Destroy(sampleObject);
+                sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
 
                 // Replicating for foil
                 //foilObject.transform.Find("default").tag = "Untagged";
@@ -230,15 +304,19 @@ public class Trial : MonoBehaviour
             }
 
             // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
-            if (timeLimit == 0)
+            if (timeLimit == 0f)
             {
                 // Transforming the csv time in ms to seconds for the countdown
+                // Sample time is used for sample
                 timeLimit = float.Parse(sampleTime) / 1000f;
             }
-            
+
         }
-        else if (phase == 2)
+        else if (trialPhase == "match")
         {
+
+            phase = 2;
+
             foilObject = GameObject.Find(sampleNumber + "f");
 
             if (sampleOrder == "left")
@@ -258,35 +336,48 @@ public class Trial : MonoBehaviour
             matchBarrier.transform.localPosition = new Vector3(1.70600009f, -0.271763206f, 0.100000001f);
             sampleBarrier.transform.localPosition = new Vector3(1.70600009f, -2.271763206f, 0.100000001f);
 
+            // Restoring visibility for the V condition
+            sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = true;
+
             // Surfacing the sample mask and hiding the others
             maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -2.448236823f, -0.0400003791f);
             maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -0.448236823f, -0.0400003791f);
             maskCubeRight.transform.localPosition = new Vector3(1.66999972f, -0.448236823f, -0.0400003791f);
 
-            if (timeLimit == 0)
+            if (timeLimit == 0f || timeLimit == 10f)
             {
                 // Transforming the csv time in ms to seconds for the countdown
+                // comparisonTime is used for match
                 timeLimit = float.Parse(comparisonTime) / 1000f;
+                
             }
 
+            // Only saved for the match phase
+            startTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
         }
+
+
+        
 
         // Initializing the timer
         currentTime = timeLimit;
 
-        startTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+        Debug.Log("participantId: " + participantId + " trialNumber: " + trialNumber + " phase: " + phase + " condition: " + condition);
     }
 
     private void SaveAnswerToCsv(string answer)
     {
         // Time since the scene was loaded, saved as participant reaction time
         string elapsedTime = Time.timeSinceLevelLoad.ToString();
+
+        //answerTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
         string correctness = answer == sampleOrder ? "true" : "false";
 
-        answerTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
         // Create a new row for the CSV file
-        string[] rowData = new string[] { participantId, trialNumber, answer, correctness, elapsedTime, startTimestamp, answerTimestamp };
+        string[] rowData = new string[] { participantId, trialNumber, answer, correctness, startTimestamp, answerTimestamp };
         // Check if the file exists
         string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
         bool fileExists = File.Exists(filePath);
@@ -297,7 +388,7 @@ public class Trial : MonoBehaviour
             if (!fileExists)
             {
                 // Add the header row if the file did not exist previously
-                sw.WriteLine("Participant ID,Trial Number,Response,Correctness,Reaction Time, Start Timestamp, End Timestamp");
+                sw.WriteLine("Participant ID,Trial Number,Response,Correctness, Start Timestamp, End Timestamp");
             }
 
             sw.WriteLine(string.Join(",", rowData));
@@ -318,7 +409,7 @@ public class Trial : MonoBehaviour
         // Persisting it in case of scene unloading or crash
         PlayerPrefs.SetString("trialNumber", trialNumber);
 
-        Debug.Log("Next trial: " + nextTrial);
+        //Debug.Log("Next trial: " + nextTrial);
 
         countdownCanvas.enabled = true;
         promptCanvas.enabled = false;
@@ -326,7 +417,6 @@ public class Trial : MonoBehaviour
         sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
         foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
 
-        phase = 1;
         currentTime = float.Parse(sampleTime) / 1000f;
 
         startPause(phase);
@@ -335,21 +425,27 @@ public class Trial : MonoBehaviour
     private void startPause(int nextPhase)
     {
 
+        pauseBool = true;
         countdownCanvas.enabled = false;
         pauseCanvas.enabled = true;
         currentTime = pauseLength;
 
         // If this is a pause between sample and match
-        if (nextPhase == 2)
-        {
+        //if (nextPhase == 2)
+        //{
             // Moving objects out of the way
-            sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-        }
-        // If this is a pause between this and the next trial
-        else if (nextPhase == 1)
+        sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+        if (foilObject)
         {
-            startTrial();
+            foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
         }
+        //}
+        //// If this is a pause between this and the next trial
+        //else if (nextPhase == 1)
+        //{
+            
+        //    //startTrial();
+        //}
     }
 
     private void PromptAnswer()
