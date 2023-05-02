@@ -3888,6 +3888,7 @@ GameObject:
   - component: {fileID: 560798315}
   - component: {fileID: 560798317}
   - component: {fileID: 560798318}
+  - component: {fileID: 560798319}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -3954,6 +3955,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trial: {fileID: 0}
   probe: {fileID: 1662108043}
+--- !u!114 &560798319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560798313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928153e143c75aa419042faf57beaa4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elevator: {fileID: 663502711}
+  targetPosition: {x: 0.27, y: -0.5, z: 0.508}
+  originalPosition: {x: 0.27, y: -1.89, z: 0.508}
+  duration: 1
 --- !u!1 &571301590
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,7 +4745,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663502711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.27, y: -1.89, z: 0.508}
+  m_LocalPosition: {x: 0.27, y: -0.5, z: 0.508}
   m_LocalScale: {x: 1.01, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []

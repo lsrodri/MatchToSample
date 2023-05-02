@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\TrialSample.cs" />
     <Compile Include="Assets\HapticToggle.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticGrabber.cs" />
+    <Compile Include="Assets\PlaneElevator.cs" />
     <Compile Include="Assets\Scripts\Reveal.cs" />
     <Compile Include="Assets\MeshIntersection.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticPluginSafetyScript.cs" />
@@ -88,11 +89,11 @@
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\TextureDemoScript.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\VibrationDemoScript.cs" />
     <Compile Include="Assets\HideProbe.cs" />
+    <Compile Include="Assets\TrackProbe.cs" />
     <Compile Include="Assets\AddTagWindow.cs" />
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
-    <Compile Include="Assets\TrackProbe.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

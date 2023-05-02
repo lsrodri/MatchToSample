@@ -74,6 +74,9 @@ public class Trial : MonoBehaviour
     // TrackProbe script uses this bool to check when to start recording position
     public static bool shouldRecord = false;
 
+    // Plane "Elevator" to move the probe up
+    private PlaneElevator planeElevator;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -106,6 +109,8 @@ public class Trial : MonoBehaviour
         maskCubeLeft = GameObject.Find("MaskCubeLeft");
         maskCubeRight = GameObject.Find("MaskCubeRight");
         maskCubeSample = GameObject.Find("MaskCubeSample");
+
+        planeElevator = GetComponent<PlaneElevator>();
 
         startTrial("sample");
     }
@@ -369,6 +374,9 @@ public class Trial : MonoBehaviour
         // Signaling to TrackProbe script recording should start
         shouldRecord = true;
 
+        // Lower the "elevator" to start the trial
+        StartCoroutine(moveHapticObjects("down"));
+
         Debug.Log("participantId: " + participantId + " trialNumber: " + trialNumber + " phase: " + phase + " condition: " + condition);
     }
 
@@ -438,22 +446,24 @@ public class Trial : MonoBehaviour
         // Signaling to TrackProbe that it should stop recording
         shouldRecord = false;
 
-        // If this is a pause between sample and match
-        //if (nextPhase == 2)
-        //{
-            // Moving objects out of the way
-        sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-        if (foilObject)
+        StartCoroutine(moveHapticObjects("up"));
+    }
+
+    IEnumerator moveHapticObjects(string direction)
+    {
+        yield return planeElevator.MoveElevator(direction);
+        // Arranging objects in case the stimuli need to be "hidden" by the plane
+        if (direction == "up")
         {
-            foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
-        }
-        //}
-        //// If this is a pause between this and the next trial
-        //else if (nextPhase == 1)
-        //{
             
-        //    //startTrial();
-        //}
+
+            sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+            if (foilObject)
+            {
+                foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
+            }
+        }
+        
     }
 
     private void PromptAnswer()

@@ -372,6 +372,7 @@
 "Assets/OpenHaptics/HapticScripts/HapticPlugin.cs"
 "Assets/OpenHaptics/HapticScripts/HapticPluginSafetyScript.cs"
 "Assets/OpenHaptics/HapticScripts/HapticSurface.cs"
+"Assets/PlaneElevator.cs"
 "Assets/QuickOutline/Scripts/Outline.cs"
 "Assets/SceneLoader.cs"
 "Assets/Scripts/CsvReader.cs"
