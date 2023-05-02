@@ -383,6 +383,7 @@
 "Assets/ShowOnTouch.cs"
 "Assets/StencilFollower.cs"
 "Assets/togglemask.cs"
+"Assets/TrackProbe.cs"
 "Assets/Trial.cs"
 "Assets/TrialMatch.cs"
 -langversion:9.0

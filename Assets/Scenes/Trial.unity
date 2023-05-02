@@ -3887,6 +3887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 560798315}
   - component: {fileID: 560798317}
+  - component: {fileID: 560798318}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -3922,6 +3923,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phase: 1
+  trialNumber: 
+  participantId: 
   adhocTrialNumber: 
   adhocParticipantId: 
   timeLimit: 0
@@ -3937,6 +3940,20 @@ MonoBehaviour:
   pauseCountdownText: {fileID: 1401731584}
   pauseLength: 5
   mat: {fileID: 2100000, guid: e31d4c4ba6ed73248a92a91b5d38144f, type: 2}
+--- !u!114 &560798318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560798313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b69cc7d967774145a2ad825f292e0bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trial: {fileID: 0}
+  probe: {fileID: 1662108043}
 --- !u!1 &571301590
 GameObject:
   m_ObjectHideFlags: 0

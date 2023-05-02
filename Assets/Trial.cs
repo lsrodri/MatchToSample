@@ -12,8 +12,8 @@ public class Trial : MonoBehaviour
     public int phase = 1;
 
     // Variables to be read from Player Preferences, set by previous scenes
-    private string trialNumber;
-    private string participantId;
+    public string trialNumber;
+    public string participantId;
 
     // Possibility of setting manual variables for dev and debugging
     public string adhocTrialNumber;
@@ -71,8 +71,11 @@ public class Trial : MonoBehaviour
 
     private bool pauseBool = false;
 
+    // TrackProbe script uses this bool to check when to start recording position
+    public static bool shouldRecord = false;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         promptCanvas.enabled = false;
@@ -128,6 +131,7 @@ public class Trial : MonoBehaviour
                 // If time is up during pause, this means that the first phase is over and the second phase should be loaded
                 if (pauseBool)
                 {
+                    // Preparing currentTime for the second phase, match, which uses comparisonTime
                     currentTime = float.Parse(comparisonTime) / 1000f;
                     pauseCanvas.enabled = false;
                     pauseBool = false;
@@ -192,12 +196,14 @@ public class Trial : MonoBehaviour
                 SaveAnswerToCsv("left");
                 isAnswered = true;
                 timeIsUp = false;
+                shouldRecord = false;
             }
             else if (rightKeyPressed && !isAnswered)
             {
                 SaveAnswerToCsv("right");
                 isAnswered = true;
                 timeIsUp = false;
+                shouldRecord = false;
             }
         }
     }
@@ -349,7 +355,6 @@ public class Trial : MonoBehaviour
                 // Transforming the csv time in ms to seconds for the countdown
                 // comparisonTime is used for match
                 timeLimit = float.Parse(comparisonTime) / 1000f;
-                
             }
 
             // Only saved for the match phase
@@ -358,11 +363,11 @@ public class Trial : MonoBehaviour
         }
 
 
-        
-
         // Initializing the timer
         currentTime = timeLimit;
 
+        // Signaling to TrackProbe script recording should start
+        shouldRecord = true;
 
         Debug.Log("participantId: " + participantId + " trialNumber: " + trialNumber + " phase: " + phase + " condition: " + condition);
     }
@@ -429,6 +434,9 @@ public class Trial : MonoBehaviour
         countdownCanvas.enabled = false;
         pauseCanvas.enabled = true;
         currentTime = pauseLength;
+
+        // Signaling to TrackProbe that it should stop recording
+        shouldRecord = false;
 
         // If this is a pause between sample and match
         //if (nextPhase == 2)
