@@ -26,7 +26,8 @@ public class Trial : MonoBehaviour
     private bool isAnswered = false;
 
     // Time limit, imported from csv
-    public float timeLimit = 0f;
+    private float timeLimit;
+    public float adhocTimeLimit = 0f;
     public TextMeshProUGUI timerText;
     private bool timeIsUp = false;
     public bool loadScene;
@@ -315,11 +316,13 @@ public class Trial : MonoBehaviour
             }
 
             // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
-            if (timeLimit == 0f)
+            if (adhocTimeLimit == 0f)
             {
-                // Transforming the csv time in ms to seconds for the countdown
-                // Sample time is used for sample
                 timeLimit = float.Parse(sampleTime) / 1000f;
+            }
+            else
+            {
+                timeLimit = adhocTimeLimit;
             }
 
         }
@@ -355,12 +358,15 @@ public class Trial : MonoBehaviour
             maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -0.448236823f, -0.0400003791f);
             maskCubeRight.transform.localPosition = new Vector3(1.66999972f, -0.448236823f, -0.0400003791f);
 
-            if (timeLimit == 0f || timeLimit == 10f)
+            if (adhocTimeLimit == 0f)
             {
-                // Transforming the csv time in ms to seconds for the countdown
-                // comparisonTime is used for match
                 timeLimit = float.Parse(comparisonTime) / 1000f;
             }
+            else
+            {
+                timeLimit = adhocTimeLimit;
+            }
+
 
             // Only saved for the match phase
             startTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -375,7 +381,9 @@ public class Trial : MonoBehaviour
         shouldRecord = true;
 
         // Lower the "elevator" to start the trial
-        StartCoroutine(moveHapticObjects("down"));
+        plane.transform.position = planeElevator.originalPosition;
+        Debug.Log("down");
+        //StartCoroutine(moveHapticObjects("down"));
 
         Debug.Log("participantId: " + participantId + " trialNumber: " + trialNumber + " phase: " + phase + " condition: " + condition);
     }
@@ -435,7 +443,7 @@ public class Trial : MonoBehaviour
         startPause(phase);
     }
 
-    private void startPause(int nextPhase)
+    private void startPause(int nextPhase, bool afterPrompt = false)
     {
 
         pauseBool = true;
@@ -451,12 +459,15 @@ public class Trial : MonoBehaviour
 
     IEnumerator moveHapticObjects(string direction)
     {
-        yield return planeElevator.MoveElevator(direction);
+        
         // Arranging objects in case the stimuli need to be "hidden" by the plane
         if (direction == "up")
         {
+            if (plane.transform.position != planeElevator.targetPosition)
+            {
+                yield return planeElevator.MoveElevator(direction);
+            }
             
-
             sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
             if (foilObject)
             {
@@ -469,8 +480,10 @@ public class Trial : MonoBehaviour
     private void PromptAnswer()
     {
 
-        sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-        foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
+
+        StartCoroutine(moveHapticObjects("up"));
+        //sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+        //foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
 
         countdownCanvas.enabled = false;
         promptCanvas.enabled = true;
