@@ -12,7 +12,7 @@ public class PlaneElevator : MonoBehaviour
 
     public IEnumerator MoveElevator(string direction)
     {
-        Debug.Log(direction);
+        //Debug.Log(direction);
         if (direction == "up")
         {
             // Moving the plane to its target upwards position
