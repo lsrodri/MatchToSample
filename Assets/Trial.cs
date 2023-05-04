@@ -78,6 +78,11 @@ public class Trial : MonoBehaviour
     // Plane "Elevator" to move the probe up
     private PlaneElevator planeElevator;
 
+    // Declaring manual positions that are used to 
+    private static readonly Vector3 sampleResetPosition = new Vector3(-8.56f, 12f, -0.50999999f);
+    private static readonly Vector3 foilResetPosition = new Vector3(8.05f, 12f, -0.50999999f);
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -291,16 +296,22 @@ public class Trial : MonoBehaviour
                 plane.GetComponent<Renderer>().enabled = false;
 
                 // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
-                // Removing the tag, else the new instance comes tagged and gets mapped
-                sampleObject.transform.Find("default").tag = "Untagged";
+                // Creating a temporary object as removing the tag from the original (unreliably) disables its haptics
+                GameObject tempSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
 
-                GameObject newSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
+                // Removing the tag, else the new instance comes tagged and gets mapped
+                tempSampleObject.transform.Find("default").tag = "Untagged";
+
+                GameObject newSampleObject = Instantiate(tempSampleObject, sampleObject.transform.position, Quaternion.identity);
+
+                // Deleting the temporary sample object
+                Destroy(tempSampleObject);
 
                 newSampleObject.name = "VConditionSample";
                 // Set the parent of the new instance to the parent of the original object, else it's out of position
                 newSampleObject.transform.SetParent(sampleObject.transform.parent);
 
-                // Destroying the original
+                // Moving the original aside
                 sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
 
                 // Replicating for foil
@@ -311,8 +322,9 @@ public class Trial : MonoBehaviour
             }
             else if (condition == "H")
             {
-                sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
+                //sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
                 //foilObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = false;
+                GameObject.Find("HPlane").GetComponent<MeshRenderer>().enabled = true;
             }
 
             // For development purposes, I am only reading the csv comparisonTime if I haven't set it on the controller game object
@@ -353,6 +365,9 @@ public class Trial : MonoBehaviour
             // Restoring visibility for the V condition
             sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = true;
 
+            // Hiding a possible H Condition occlusion plane
+            GameObject.Find("HPlane").GetComponent<MeshRenderer>().enabled = false;
+
             // Surfacing the sample mask and hiding the others
             maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -2.448236823f, -0.0400003791f);
             maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -0.448236823f, -0.0400003791f);
@@ -367,6 +382,7 @@ public class Trial : MonoBehaviour
                 timeLimit = adhocTimeLimit;
             }
 
+            
 
             // Only saved for the match phase
             startTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -381,7 +397,12 @@ public class Trial : MonoBehaviour
         shouldRecord = true;
 
         // Lower the "elevator" to start the trial
-        plane.transform.position = planeElevator.originalPosition;
+        // Only do it for these cases as the plane is manipulated differently for V
+        if (condition != "V" || trialPhase == "match")
+        {
+            plane.transform.position = planeElevator.originalPosition;
+        }
+        
         Debug.Log("down");
         //StartCoroutine(moveHapticObjects("down"));
 
@@ -435,8 +456,8 @@ public class Trial : MonoBehaviour
         countdownCanvas.enabled = true;
         promptCanvas.enabled = false;
 
-        sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-        foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
+        sampleObject.transform.localPosition = sampleResetPosition;
+        foilObject.transform.localPosition = foilResetPosition;
 
         currentTime = float.Parse(sampleTime) / 1000f;
 
@@ -467,11 +488,11 @@ public class Trial : MonoBehaviour
             {
                 yield return planeElevator.MoveElevator(direction);
             }
-            
-            sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+
+            sampleObject.transform.localPosition = sampleResetPosition;
             if (foilObject)
             {
-                foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
+                foilObject.transform.localPosition = foilResetPosition;
             }
         }
         

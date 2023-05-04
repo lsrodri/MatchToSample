@@ -94,6 +94,8 @@
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
+    <Compile Include="Assets\StartElevatorController.cs" />
+    <Compile Include="Assets\PersistBetweenScenes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
