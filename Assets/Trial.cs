@@ -283,7 +283,7 @@ public class Trial : MonoBehaviour
             matchBarrier.transform.localPosition = new Vector3(1.70600009f, -2.271763206f, 0.100000001f);
 
             // Surfacing the sample mask and hiding the others
-            maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -0.448236823f, -0.0400003791f);
+            maskCubeSample.transform.localPosition = new Vector3(0.0199999996f, -0.514999986f, -0.0400003791f);
             maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -2.448236823f, -0.0400003791f);
             maskCubeRight.transform.localPosition = new Vector3(1.66999972f, -2.448236823f, -0.0400003791f);
 
@@ -370,8 +370,9 @@ public class Trial : MonoBehaviour
 
             // Surfacing the sample mask and hiding the others
             maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -2.448236823f, -0.0400003791f);
-            maskCubeLeft.transform.localPosition = new Vector3(-1.58000028f, -0.448236823f, -0.0400003791f);
-            maskCubeRight.transform.localPosition = new Vector3(1.66999972f, -0.448236823f, -0.0400003791f);
+            //maskCubeSample.transform.localPosition = new Vector3(0.0199999996f, -0.514999986f, -0.0400003791f);
+            maskCubeLeft.transform.localPosition = new Vector3(-1.52f, -0.448236823f, -0.02000038f);
+            maskCubeRight.transform.localPosition = new Vector3(1.61f, -0.448236823f, -0.02000038f);
 
             if (adhocTimeLimit == 0f)
             {

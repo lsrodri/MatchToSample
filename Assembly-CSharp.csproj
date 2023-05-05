@@ -59,6 +59,7 @@
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\buttonTestScript.cs" />
     <Compile Include="Assets\QuickOutline\Scripts\Outline.cs" />
     <Compile Include="Assets\Scripts\_cleaned_SpawnCubes.cs" />
+    <Compile Include="Assets\PersistBetweenScenes.cs" />
     <Compile Include="Assets\Cutout.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\HapticMouse.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticSurface.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets\Scripts\Maze.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticPlugin.cs" />
     <Compile Include="Assets\Scripts\TrialSample.cs" />
+    <Compile Include="Assets\StartElevatorController.cs" />
     <Compile Include="Assets\HapticToggle.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticGrabber.cs" />
     <Compile Include="Assets\PlaneElevator.cs" />
@@ -94,8 +96,6 @@
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
-    <Compile Include="Assets\StartElevatorController.cs" />
-    <Compile Include="Assets\PersistBetweenScenes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
