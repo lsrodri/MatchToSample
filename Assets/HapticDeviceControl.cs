@@ -14,21 +14,8 @@ public class HapticDeviceControl : MonoBehaviour
 {
 
 
-	public enum EFFECT_TYPE { CONSTANT, VISCOUS, SPRING, FRICTION, VIBRATE };
-
-
-	// Public, User-Adjustable Settings
-	public EFFECT_TYPE effectType = EFFECT_TYPE.VISCOUS; //!< Which type of effect occurs within this zone?
-	[Range(0.0f, 1.0f)] public double Gain = 0.333f;
-	[Range(0.0f, 1.0f)] public double Magnitude = 0.333f;
-	[Range(1.0f, 1000.0f)] public double Frequency = 200.0f;
-	private double Duration = 1.0f;
-	public Vector3 Position = Vector3.zero;
-	public Vector3 Direction = Vector3.up;
-
-
-	// Keep track of the Haptic Devices
 	HapticPlugin[] devices;
+	HapticPlugin device;
 	bool[] inTheZone;       //Is the stylus in the effect zone?
 	Vector3[] devicePoint;  // Current location of stylus
 	float[] delta;          // Distance from stylus to zone collider.
@@ -61,7 +48,17 @@ public class HapticDeviceControl : MonoBehaviour
 			delta[ii] = 0.0f;
 			FXID[ii] = HapticPlugin.effects_assignEffect(devices[ii].configName);
 		}
+
+		HapticPlugin device = devices[0];
+		//for (int ii = 0; ii < devices.Length; ii++)
+		//{
+		//	Debug.Log(devices[ii]);
+		//}
+
+		Debug.Log(device.configName);
 	}
+
+
 
 
 	//!  Update() is called once per frame.
@@ -72,186 +69,122 @@ public class HapticDeviceControl : MonoBehaviour
 	//! - Starts and stops the effect when appropriate.
 	void Update()
 	{
-		// Find the pointer to the collider that defines the "zone". 
-		Collider collider = gameObject.GetComponent<Collider>();
-		if (collider == null)
-		{
-			Debug.LogError("This Haptic Effect Zone requires a collider");
-			return;
-		}
+		//// Find the pointer to the collider that defines the "zone". 
+		//Collider collider = gameObject.GetComponent<Collider>();
+		//if (collider == null)
+		//{
+		//	Debug.LogError("This Haptic Effect Zone requires a collider");
+		//	return;
+		//}
 
-		// Update the World-Space vectors
-		focusPointWorld = transform.TransformPoint(Position);
-		directionWorld = transform.TransformDirection(Direction);
+		//// Update the World-Space vectors
+		//focusPointWorld = transform.TransformPoint(Position);
+		//directionWorld = transform.TransformDirection(Direction);
 
-		// Update the effect seperately for each haptic device.
-		for (int ii = 0; ii < devices.Length; ii++)
-		{
-			HapticPlugin device = devices[ii];
-			bool oldInTheZone = inTheZone[ii];
-			int ID = FXID[ii];
+		//// Update the effect seperately for each haptic device.
+		//for (int ii = 0; ii < devices.Length; ii++)
+		//{
+		//	HapticPlugin device = devices[ii];
+		//	bool oldInTheZone = inTheZone[ii];
+		//	int ID = FXID[ii];
 
-			// If a haptic effect has not been assigned through Open Haptics, assign one now.
-			if (ID == -1)
-			{
-				FXID[ii] = HapticPlugin.effects_assignEffect(devices[ii].configName);
-				ID = FXID[ii];
+		//	// If a haptic effect has not been assigned through Open Haptics, assign one now.
+		//	if (ID == -1)
+		//	{
+		//		FXID[ii] = HapticPlugin.effects_assignEffect(devices[ii].configName);
+		//		ID = FXID[ii];
 
-				if (ID == -1) // Still broken?
-				{
-					Debug.LogError("Unable to assign Haptic effect.");
-					continue;
-				}
-			}
+		//		if (ID == -1) // Still broken?
+		//		{
+		//			Debug.LogError("Unable to assign Haptic effect.");
+		//			continue;
+		//		}
+		//	}
 
-			// Determine if the stylus is in the "zone". 
-			Vector3 StylusPos = device.stylusPositionWorld; //World Coordinates
-			Vector3 CP = collider.ClosestPoint(StylusPos);  //World Coordinates
-			devicePoint[ii] = CP;
-			delta[ii] = (CP - StylusPos).magnitude;
+		//	// Determine if the stylus is in the "zone". 
+		//	Vector3 StylusPos = device.stylusPositionWorld; //World Coordinates
+		//	Vector3 CP = collider.ClosestPoint(StylusPos);  //World Coordinates
+		//	devicePoint[ii] = CP;
+		//	delta[ii] = (CP - StylusPos).magnitude;
 
-			//If the stylus is within the Zone, The ClosestPoint and the Stylus point will be identical.
+		//	//If the stylus is within the Zone, The ClosestPoint and the Stylus point will be identical.
 
-			Vector3 targetPosition = new Vector3(0f, 0f, 0f);
-			Vector3 direction = (targetPosition - StylusPos).normalized;
+		//	Vector3 targetPosition = new Vector3(0f, 0f, 0f);
+		//	Vector3 direction = (targetPosition - StylusPos).normalized;
 
-			//if (delta[ii] <= Mathf.Epsilon)
-			//{
-			inTheZone[ii] = true;
+		//	//if (delta[ii] <= Mathf.Epsilon)
+		//	//{
+		//	inTheZone[ii] = true;
 
-			// Convert from the World coordinates to coordinates relative to the haptic device.
-			Vector3 focalPointDevLocal = device.transform.InverseTransformPoint(focusPointWorld);
-			Vector3 rotationDevLocal = device.transform.InverseTransformDirection(directionWorld);
-			double[] pos = { focalPointDevLocal.x, focalPointDevLocal.y, focalPointDevLocal.z };
-			//double[] dir = { rotationDevLocal.x, rotationDevLocal.y, rotationDevLocal.z };
-			double[] dir = { direction.x, direction.y, direction.z };
+		//	// Convert from the World coordinates to coordinates relative to the haptic device.
+		//	Vector3 focalPointDevLocal = device.transform.InverseTransformPoint(focusPointWorld);
+		//	Vector3 rotationDevLocal = device.transform.InverseTransformDirection(directionWorld);
+		//	double[] pos = { focalPointDevLocal.x, focalPointDevLocal.y, focalPointDevLocal.z };
+		//	//double[] dir = { rotationDevLocal.x, rotationDevLocal.y, rotationDevLocal.z };
+		//	double[] dir = { direction.x, direction.y, direction.z };
 
-			double Mag = Magnitude;
+		//	double Mag = Magnitude;
 
-			if (device.isInSafetyMode())
-				Mag = 0;
+		//	if (device.isInSafetyMode())
+		//		Mag = 0;
 
-			// Send the current effect settings to OpenHaptics.
-			HapticPlugin.effects_settings(
-				device.configName,
-				ID,
-				Gain,
-				Mag,
-				Frequency,
-				pos,
-				dir);
-			HapticPlugin.effects_type(
-				device.configName,
-				ID,
-				(int)effectType);
+			HapticPlugin.setForce(device.configName, new double[] { 0, 0.1, 0 }, new double[] { 0, 0, 0 });
 
-			//}
-			//else
-			//{
-			//	inTheZone[ii] = false;
+		//	// Send the current effect settings to OpenHaptics.
+		//	HapticPlugin.effects_settings(
+		//		device.configName,
+		//		ID,
+		//		Gain,
+		//		Mag,
+		//		Frequency,
+		//		pos,
+		//		dir);
+		//	HapticPlugin.effects_type(
+		//		device.configName,
+		//		ID,
+		//		(int)effectType);
 
-			//	// Note : If the device is not in the "Zone", there is no need to update the effect settings.
-			//}
+		//	//}
+		//	//else
+		//	//{
+		//	//	inTheZone[ii] = false;
 
-			//// If the on/off state has changed since last frame, send a Start or Stop event to OpenHaptics
-			//if (oldInTheZone != inTheZone[ii])
-			//{
-			//	if (inTheZone[ii])
-			//	{
-			if (direction != targetPosition)
-			{
+		//	//	// Note : If the device is not in the "Zone", there is no need to update the effect settings.
+		//	//}
 
-
-				HapticPlugin.effects_startEffect(device.configName, ID);
-			}
-			else
-			{
+		//	//// If the on/off state has changed since last frame, send a Start or Stop event to OpenHaptics
+		//	//if (oldInTheZone != inTheZone[ii])
+		//	//{
+		//	//	if (inTheZone[ii])
+		//	//	{
+		//	if (direction != targetPosition)
+		//	{
 
 
-				//}
-				//else
-				//{
+		//		HapticPlugin.effects_startEffect(device.configName, ID);
+		//	}
+		//	else
+		//	{
 
-				HapticPlugin.effects_stopEffect(device.configName, ID);
-			}
-			//		}
-			//	}
 
-			//}
-		}
-	}
-	void OnDestroy()
-	{
-		//For every haptic device, send a Stop event to OpenHaptics
-		for (int ii = 0; ii < devices.Length; ii++)
-		{
-			HapticPlugin device = devices[ii];
-			if (device == null)
-				continue;
-			int ID = FXID[ii];
-			HapticPlugin.effects_stopEffect(device.configName, ID);
-		}
-	}
-	void OnDisable()
-	{
-		//For every haptic device, send a Stop event to OpenHaptics
-		for (int ii = 0; ii < devices.Length; ii++)
-		{
-			HapticPlugin device = devices[ii];
-			if (device == null)
-				continue;
-			int ID = FXID[ii];
-			HapticPlugin.effects_stopEffect(device.configName, ID);
-			inTheZone[ii] = false;
-		}
+		//		//}
+		//		//else
+		//		//{
+
+		//		HapticPlugin.effects_stopEffect(device.configName, ID);
+		//	}
+		//	//		}
+		//	//	}
+
+		//	//}
+		//}
 	}
 
 
 	//! OnDrawGizmos() is called only when the Unity Editor is active.
 	//! It draws some hopefully useful wireframes to the editor screen.
 
-	void OnDrawGizmos()
-	{
-		Gizmos.matrix = Matrix4x4.identity;
-		Gizmos.matrix = this.transform.localToWorldMatrix;
-
-		Gizmos.color = Color.white;
-
-		Ray R = new Ray();
-		R.direction = Direction;
-
-		if (effectType == EFFECT_TYPE.CONSTANT)
-		{
-			Gizmos.DrawRay(R);
-		}
-
-		Vector3 focusPointWorld = transform.TransformPoint(Position);
-
-
-		Gizmos.matrix = Matrix4x4.identity;
-		Gizmos.color = Color.white;
-		if (effectType == EFFECT_TYPE.SPRING)
-		{
-			Gizmos.DrawIcon(focusPointWorld, "anchor_icon.tiff");
-		}
-
-		if (devices == null)
-			return;
-
-		// If the device is in the zone, draw a red marker. 
-		// And draw a line indicating the spring force, if we're in that mode.
-		for (int ii = 0; ii < devices.Length; ii++)
-		{
-			if (delta[ii] <= Mathf.Epsilon)
-			{
-				Gizmos.color = Color.red;
-				Gizmos.DrawWireSphere(devicePoint[ii], 1.0f);
-				if (effectType == EFFECT_TYPE.SPRING)
-					Gizmos.DrawLine(focusPointWorld, devicePoint[ii]);
-			}
-		}
-
-	}
+	
 
 
 }

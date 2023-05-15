@@ -96,6 +96,7 @@
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
+    <Compile Include="Assets\MaterialFriction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

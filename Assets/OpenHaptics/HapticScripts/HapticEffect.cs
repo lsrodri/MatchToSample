@@ -102,7 +102,7 @@ public class HapticEffect : MonoBehaviour {
 					continue;
 				}
 			}
-
+			device.safeUpdateManipulator();
 			// Determine if the stylus is in the "zone". 
 			Vector3 StylusPos = device.stylusPositionWorld;	//World Coordinates
 			Vector3 CP = collider.ClosestPoint(StylusPos); 	//World Coordinates

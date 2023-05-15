@@ -372,6 +372,7 @@
 "Assets/HapticToggle.cs"
 "Assets/HideProbe.cs"
 "Assets/MaskRender.cs"
+"Assets/MaterialFriction.cs"
 "Assets/MeshIntersection.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/BlockPuzzleController.cs"
 "Assets/OpenHaptics/HapticDemos/DemoScripts/buttonTestScript.cs"
