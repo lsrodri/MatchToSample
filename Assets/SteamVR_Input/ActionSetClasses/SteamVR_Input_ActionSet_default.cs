@@ -25,7 +25,7 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean Teleport
+        public virtual SteamVR_Action_Vector2 Teleport
         {
             get
             {
@@ -102,6 +102,14 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.default_SnapTurnRight;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 DPad
+        {
+            get
+            {
+                return SteamVR_Actions.default_DPad;
             }
         }
         

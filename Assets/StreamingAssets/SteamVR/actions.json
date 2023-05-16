@@ -6,7 +6,7 @@
     },
     {
       "name": "/actions/default/in/Teleport",
-      "type": "boolean"
+      "type": "vector2"
     },
     {
       "name": "/actions/default/in/GrabPinch",
@@ -48,6 +48,10 @@
     {
       "name": "/actions/default/in/SnapTurnRight",
       "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/DPad",
+      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",

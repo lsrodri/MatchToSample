@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Valve.VR;
 
 public class Trial : MonoBehaviour
 {
@@ -78,7 +79,8 @@ public class Trial : MonoBehaviour
     // TrackProbe script uses this bool to check when to start recording position
     public static bool shouldRecord = false;
 
-
+    public SteamVR_Action_Boolean snapLeftAction = SteamVR_Input.GetBooleanAction("SnapTurnLeft");
+    public SteamVR_Action_Boolean snapRightAction = SteamVR_Input.GetBooleanAction("SnapTurnRight");
 
     // Plane "Elevator" to move the probe up
     private PlaneElevator planeElevator;
@@ -195,12 +197,12 @@ public class Trial : MonoBehaviour
             }
 
             // Capture arrow key input
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) || snapLeftAction.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 leftKeyPressed = true;
                 Debug.Log("left");
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || snapRightAction.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 rightKeyPressed = true;
                 Debug.Log("right");

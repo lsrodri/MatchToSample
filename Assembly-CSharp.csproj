@@ -70,6 +70,7 @@
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticPlugin.cs" />
     <Compile Include="Assets\Scripts\TrialSample.cs" />
     <Compile Include="Assets\StartElevatorController.cs" />
+    <Compile Include="Assets\ControllerInput.cs" />
     <Compile Include="Assets\HapticToggle.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticGrabber.cs" />
     <Compile Include="Assets\PlaneElevator.cs" />
