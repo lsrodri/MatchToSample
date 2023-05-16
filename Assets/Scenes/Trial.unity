@@ -4559,7 +4559,7 @@ MonoBehaviour:
   participantId: 1
   adhocTrialNumber: 
   adhocParticipantId: 
-  adhocTimeLimit: 6
+  adhocTimeLimit: 0
   timerText: {fileID: 1614106558}
   loadScene: 1
   sceneName: PostAnswer
@@ -4570,8 +4570,10 @@ MonoBehaviour:
   promptCanvas: {fileID: 1853803576}
   pauseCanvas: {fileID: 1602877297}
   pauseCountdownText: {fileID: 1401731584}
+  feedbackText: {fileID: 823416349}
   pauseLength: 5
   mat: {fileID: 2100000, guid: e31d4c4ba6ed73248a92a91b5d38144f, type: 2}
+  showFeedback: 1
 --- !u!114 &560798318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7113,7 +7115,7 @@ GameObject:
   - component: {fileID: 823416350}
   - component: {fileID: 823416349}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: FeedbackText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

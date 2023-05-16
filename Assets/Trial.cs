@@ -53,10 +53,13 @@ public class Trial : MonoBehaviour
     public Canvas promptCanvas;
     public Canvas pauseCanvas;
     public TextMeshProUGUI pauseCountdownText;
+    public TextMeshProUGUI feedbackText;
 
     public float pauseLength;
 
     public Material mat;
+
+    public bool showFeedback = true;
 
     string sampleNumber;
     string sampleOrder;
@@ -74,6 +77,8 @@ public class Trial : MonoBehaviour
 
     // TrackProbe script uses this bool to check when to start recording position
     public static bool shouldRecord = false;
+
+
 
     // Plane "Elevator" to move the probe up
     private PlaneElevator planeElevator;
@@ -419,6 +424,13 @@ public class Trial : MonoBehaviour
 
         string correctness = answer == sampleOrder ? "true" : "false";
 
+        if (showFeedback)
+        {
+            // Show correctness on screen
+            string feedbackString = (correctness == "true") ? "Correct" : "Wrong";
+            feedbackText.SetText(feedbackString);
+        }
+        
         // Create a new row for the CSV file
         string[] rowData = new string[] { participantId, trialNumber, answer, correctness, startTimestamp, answerTimestamp };
         // Check if the file exists
@@ -472,6 +484,16 @@ public class Trial : MonoBehaviour
         countdownCanvas.enabled = false;
         pauseCanvas.enabled = true;
         currentTime = pauseLength;
+
+
+        if (phase == 2 && showFeedback)
+        {
+            feedbackText.enabled = true;
+        }
+        else
+        {
+            feedbackText.enabled = false;
+        }
 
         // Signaling to TrackProbe that it should stop recording
         shouldRecord = false;
