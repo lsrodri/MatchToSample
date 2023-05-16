@@ -10,21 +10,34 @@ public class Cutout : MonoBehaviour
     public Texture holeTexture;
     public Texture plainTexture;
 
+    public bool hideProbe = true;
+
     // Haptic device for visibility toggling
     public GameObject sphere;
     public GameObject cylinder;
+    public GameObject collisionCylinder;
 
     // Get the MeshRenderer component of the game object
     private MeshRenderer sphereMeshRenderer;
     private MeshRenderer cylinderMeshRenderer;
+    private MeshRenderer collisionCylinderMeshRenderer;
 
-
+  
     private Renderer textureRenderer;
+    //private Color sphereColor;
+    //private Color cylinderColor;
 
     void Start()
     {
         // Get the renderer component of the texture
         textureRenderer = GetComponent<Renderer>();
+        sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
+        cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
+        collisionCylinderMeshRenderer = collisionCylinder.GetComponent<MeshRenderer>();
+
+        // Getting material color for opacity dimming
+        //sphereColor = sphereMeshRenderer.material.color;
+        //cylinderColor = cylinderMeshRenderer.material.color;
     }
 
     void Update()
@@ -44,43 +57,49 @@ public class Cutout : MonoBehaviour
         textureRenderer.material.mainTextureOffset = uvOffset;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void ProbeVisibility(bool enable, Collision collision)
     {
+        // Performing the collision check away from collision events to prevent repeated code
         if (collision.gameObject == targetObject.gameObject)
         {
-            textureRenderer.material.mainTexture = holeTexture;
+            
+            if (enable == true)
+            {
+                textureRenderer.material.mainTexture = plainTexture;
+            }
+            else
+            {
+                textureRenderer.material.mainTexture = holeTexture;
+            }
 
-            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
-            sphereMeshRenderer.enabled = false;
-            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
-            cylinderMeshRenderer.enabled = false;
+            // Probe sphere is hidden or reactivated in any case
+            sphereMeshRenderer.enabled = enable;
+            cylinderMeshRenderer.enabled = enable;
+
+            // If the probe should not disappear, a "shorter" cylinder is shown to prevent occlusion
+            if (!hideProbe)
+            {
+                // Showing the
+                collisionCylinderMeshRenderer.enabled = !enable;
+            }
+            
         }
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        ProbeVisibility(false, collision);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject == targetObject.gameObject)
-        {
-            textureRenderer.material.mainTexture = holeTexture;
-
-            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
-            sphereMeshRenderer.enabled = false;
-            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
-            cylinderMeshRenderer.enabled = false;
-        }
+        ProbeVisibility(false, collision);
     }
 
     private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject == targetObject.gameObject)
-        {
-            textureRenderer.material.mainTexture = plainTexture;
-
-            sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
-            sphereMeshRenderer.enabled = true;
-            cylinderMeshRenderer = cylinder.GetComponent<MeshRenderer>();
-            cylinderMeshRenderer.enabled = true;
-        }
+    {   
+        ProbeVisibility(true, collision);
     }
 
 }
