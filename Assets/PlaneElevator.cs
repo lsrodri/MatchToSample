@@ -52,5 +52,6 @@ public class PlaneElevator : MonoBehaviour
 
         // Ensure the elevator reaches the exact target position
         elevator.transform.position = targetPosition;
+
     }
 }

@@ -56,11 +56,15 @@ public class Trial : MonoBehaviour
     public TextMeshProUGUI pauseCountdownText;
     public TextMeshProUGUI feedbackText;
 
+    public GameObject magicSphere;
+    private MagneticSphere magneticSphere;
+
     public float pauseLength;
 
     public Material mat;
 
     public bool showFeedback = true;
+    public bool showCountdown = false;
 
     string sampleNumber;
     string sampleOrder;
@@ -125,6 +129,16 @@ public class Trial : MonoBehaviour
 
         planeElevator = GetComponent<PlaneElevator>();
 
+        magneticSphere = magicSphere.GetComponent<MagneticSphere>();
+
+        if (magneticSphere != null)
+        {
+            magneticSphere.toggleConstraint(1); // Enable HL_CONSTRAINT
+        }
+
+        pauseCountdownText.enabled = showCountdown;
+        timerText.enabled = showCountdown;
+
         startTrial("sample");
     }
 
@@ -137,7 +151,10 @@ public class Trial : MonoBehaviour
             currentTime -= Time.deltaTime;
             if (pauseBool)
             {
-                pauseCountdownText.text = currentTime.ToString("0");
+                if (showCountdown)
+                {
+                    pauseCountdownText.text = currentTime.ToString("0");
+                }
             }
             else
             {
@@ -172,7 +189,10 @@ public class Trial : MonoBehaviour
 
                 if (pauseBool)
                 {
-                    pauseCountdownText.text = currentTime.ToString("0");
+                    if(showCountdown)
+                    {
+                        pauseCountdownText.text = currentTime.ToString("0");
+                    }
                 }
                 else
                 {
@@ -319,7 +339,8 @@ public class Trial : MonoBehaviour
                 newSampleObject.transform.SetParent(sampleObject.transform.parent);
 
                 // Moving the original aside
-                sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+                //sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
+                sampleObject.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
 
                 // Replicating for foil
                 //foilObject.transform.Find("default").tag = "Untagged";
@@ -410,8 +431,11 @@ public class Trial : MonoBehaviour
         {
             plane.transform.position = planeElevator.originalPosition;
         }
-        
-        Debug.Log("down");
+
+        // Disabling magnetic sphere
+        magneticSphere.toggleConstraint(0);
+
+        //Debug.Log("down");
         //StartCoroutine(moveHapticObjects("down"));
 
         Debug.Log("participantId: " + participantId + " trialNumber: " + trialNumber + " phase: " + phase + " condition: " + condition);
@@ -484,9 +508,12 @@ public class Trial : MonoBehaviour
 
         pauseBool = true;
         countdownCanvas.enabled = false;
-        pauseCanvas.enabled = true;
+
+        // moved to delayedPauseSetup() as it needs to wait for the elevator
+        //pauseCanvas.enabled = true;
         currentTime = pauseLength;
 
+        Invoke("delayedPauseSetup", planeElevator.duration);
 
         if (phase == 2 && showFeedback)
         {
@@ -500,6 +527,7 @@ public class Trial : MonoBehaviour
         // Signaling to TrackProbe that it should stop recording
         shouldRecord = false;
 
+        // Removed in favor of a target object where participants should bring the probe
         StartCoroutine(moveHapticObjects("up"));
     }
 
@@ -523,14 +551,20 @@ public class Trial : MonoBehaviour
         
     }
 
+    // Needed as Invoke does not take parameters
+    void delayedPauseSetup()
+    {
+        magneticSphere.toggleConstraint(1);
+        pauseCanvas.enabled = true;
+    }
+
     private void PromptAnswer()
     {
 
 
+        // Removed in favor of a target object where participants should bring the probe
         StartCoroutine(moveHapticObjects("up"));
-        //sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-        //foilObject.transform.localPosition = new Vector3(8.05f, 0.5500000007f, -0.50999999f);
-
+        
         countdownCanvas.enabled = false;
         promptCanvas.enabled = true;
     }

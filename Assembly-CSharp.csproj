@@ -83,6 +83,8 @@
     <Compile Include="Assets\Trial.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\MetersDemo.cs" />
+    <Compile Include="Assets\MagneticSphere.cs" />
+    <Compile Include="Assets\DummyTrigger.cs" />
     <Compile Include="Assets\ShowOnTouch.cs" />
     <Compile Include="Assets\Scripts\CsvReader.cs" />
     <Compile Include="Assets\FollowProbe.cs" />
