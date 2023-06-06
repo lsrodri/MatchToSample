@@ -93,6 +93,8 @@ public class Trial : MonoBehaviour
     private static readonly Vector3 sampleResetPosition = new Vector3(-8.56f, 12f, -0.50999999f);
     private static readonly Vector3 foilResetPosition = new Vector3(8.05f, 12f, -0.50999999f);
 
+    public bool runTimer = true;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -148,7 +150,12 @@ public class Trial : MonoBehaviour
         //Debug.Log(phase);
         if (phase == 1)
         {
-            currentTime -= Time.deltaTime;
+            // To help development, a public bool controls whether the timer actually runs
+            if (runTimer)
+            {
+                currentTime -= Time.deltaTime;
+            }
+
             if (pauseBool)
             {
                 if (showCountdown)
@@ -185,7 +192,11 @@ public class Trial : MonoBehaviour
             if (!timeIsUp)
             {
                 // Managing and rendering the countdown
-                currentTime -= Time.deltaTime;
+                // To help development, a public bool controls whether the timer actually runs
+                if (runTimer)
+                {
+                    currentTime -= Time.deltaTime;
+                }
 
                 if (pauseBool)
                 {
