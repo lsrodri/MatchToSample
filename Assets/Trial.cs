@@ -72,8 +72,10 @@ public class Trial : MonoBehaviour
     string comparisonTime;
     string condition;
 
-    private GameObject sampleObject;
-    private GameObject foilObject;
+    private GameObject sampleObjectPath;
+    private GameObject sampleObjectBlocks;
+    private GameObject foilObjectPath;
+    private GameObject foilObjectBlocks;
 
     private CsvReader csvReader;
     private Dictionary<string, string> rowData;
@@ -298,14 +300,22 @@ public class Trial : MonoBehaviour
             Debug.LogError($"Could not find row with Participant ID {participantId} and Trial Number {trialNumber}");
         }
 
-        sampleObject = GameObject.Find(sampleNumber + "s");
-        sampleObject.transform.Find("default").GetComponent<Renderer>().material = mat;
+        sampleObjectPath = GameObject.Find(sampleNumber + "s_path");
+        sampleObjectBlocks = GameObject.Find(sampleNumber + "s_block");
+        //sampleObject.transform.Find("default").GetComponent<Renderer>().material = mat;
 
         // Checking for existing sample instances left from the V condition
-        if (GameObject.Find("VConditionSample"))
+        if (GameObject.Find("VConditionSamplePath"))
         {
-            Destroy(GameObject.Find("VConditionSample"));
+            Destroy(GameObject.Find("VConditionSamplePath"));
         }
+        
+        if (GameObject.Find("VConditionSampleBlocks"))
+        {
+            Destroy(GameObject.Find("VConditionSampleBlocks"));
+        }
+
+
 
         if (trialPhase == "sample")
         {
@@ -314,7 +324,8 @@ public class Trial : MonoBehaviour
             phase = 1;
 
             // Central position for sample stimulus
-            sampleObject.transform.localPosition = new Vector3(-1.76999998f, 0.5500000007f, -0.50999999f);
+            sampleObjectPath.transform.localPosition = new Vector3(-1.76999998f, 0.5500000007f, -0.50999999f);
+            sampleObjectBlocks.transform.localPosition = new Vector3(-1.76999998f, 0.5500000007f, -0.50999999f);
 
             // Surface Sample Barrier and hide Match Barrier
             sampleBarrier.transform.localPosition = new Vector3(1.70600009f, -0.271763206f, 0.100000001f);
@@ -335,23 +346,30 @@ public class Trial : MonoBehaviour
 
                 // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
                 // Creating a temporary object as removing the tag from the original (unreliably) disables its haptics
-                GameObject tempSampleObject = Instantiate(sampleObject, sampleObject.transform.position, Quaternion.identity);
+                GameObject tempSampleObjectPath = Instantiate(sampleObjectPath, sampleObjectPath.transform.position, Quaternion.identity);
+                GameObject tempSampleObjectBlocks = Instantiate(sampleObjectBlocks, sampleObjectBlocks.transform.position, Quaternion.identity);
 
                 // Removing the tag, else the new instance comes tagged and gets mapped
-                tempSampleObject.transform.Find("default").tag = "Untagged";
+                tempSampleObjectPath.transform.Find("default").tag = "Untagged";
+                tempSampleObjectBlocks.transform.Find("default").tag = "Untagged";
 
-                GameObject newSampleObject = Instantiate(tempSampleObject, sampleObject.transform.position, Quaternion.identity);
+                GameObject newSampleObjectPath = Instantiate(tempSampleObjectPath, sampleObjectPath.transform.position, Quaternion.identity);
+                GameObject newSampleObjectBlocks = Instantiate(tempSampleObjectBlocks, sampleObjectBlocks.transform.position, Quaternion.identity);
 
                 // Deleting the temporary sample object
-                Destroy(tempSampleObject);
+                Destroy(tempSampleObjectPath);
+                Destroy(tempSampleObjectBlocks);
 
-                newSampleObject.name = "VConditionSample";
+                newSampleObjectPath.name = "VConditionSamplePath";
+                newSampleObjectBlocks.name = "VConditionSampleBlocks";
                 // Set the parent of the new instance to the parent of the original object, else it's out of position
-                newSampleObject.transform.SetParent(sampleObject.transform.parent);
+                newSampleObjectPath.transform.SetParent(sampleObjectPath.transform.parent);
+                newSampleObjectBlocks.transform.SetParent(sampleObjectBlocks.transform.parent);
 
                 // Moving the original aside
                 //sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-                sampleObject.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
+                sampleObjectPath.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
+                sampleObjectBlocks.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
 
                 // Replicating for foil
                 //foilObject.transform.Find("default").tag = "Untagged";
@@ -382,27 +400,35 @@ public class Trial : MonoBehaviour
 
             phase = 2;
 
-            foilObject = GameObject.Find(sampleNumber + "f");
+            foilObjectPath = GameObject.Find(sampleNumber + "f_path");
+            foilObjectBlocks = GameObject.Find(sampleNumber + "f_block");
 
             if (sampleOrder == "left")
             {
-                sampleObject.transform.localPosition = new Vector3(-3.34f, 0.5500000007f, -0.50999999f);
-                foilObject.transform.localPosition = new Vector3(3.21f, 0.5500000007f, -0.50999999f);
+                sampleObjectPath.transform.localPosition = new Vector3(-3.34f, 0.5500000007f, -0.50999999f);
+                sampleObjectBlocks.transform.localPosition = new Vector3(-3.34f, 0.5500000007f, -0.50999999f);
+
+                foilObjectPath.transform.localPosition = new Vector3(3.21f, 0.5500000007f, -0.50999999f);
+                foilObjectBlocks.transform.localPosition = new Vector3(3.21f, 0.5500000007f, -0.50999999f);
             }
             else if (sampleOrder == "right")
             {
-                sampleObject.transform.localPosition = new Vector3(-0.1499996f, 0.5500000007f, -0.50999999f);
-                foilObject.transform.localPosition = new Vector3(0.0199995f, 0.5500000007f, -0.50999999f);
+                sampleObjectPath.transform.localPosition = new Vector3(-0.1499996f, 0.5500000007f, -0.50999999f);
+                sampleObjectBlocks.transform.localPosition = new Vector3(-0.1499996f, 0.5500000007f, -0.50999999f);
+
+                foilObjectPath.transform.localPosition = new Vector3(0.0199995f, 0.5500000007f, -0.50999999f);
+                foilObjectBlocks.transform.localPosition = new Vector3(0.0199995f, 0.5500000007f, -0.50999999f);
             }
         
-            foilObject.transform.Find("default").GetComponent<Renderer>().material = mat;
+            //foilObject.transform.Find("default").GetComponent<Renderer>().material = mat;
 
             // Surface Match Barrier and hide Sample Barrier
             matchBarrier.transform.localPosition = new Vector3(1.70600009f, -0.271763206f, 0.100000001f);
             sampleBarrier.transform.localPosition = new Vector3(1.70600009f, -2.271763206f, 0.100000001f);
 
             // Restoring visibility for the V condition
-            sampleObject.transform.Find("default").GetComponent<MeshRenderer>().enabled = true;
+            sampleObjectPath.transform.Find("default").GetComponent<MeshRenderer>().enabled = true;
+            sampleObjectBlocks.transform.Find("default").GetComponent<MeshRenderer>().enabled = true;
 
             // Hiding a possible H Condition occlusion plane
             GameObject.Find("HPlane").GetComponent<MeshRenderer>().enabled = false;
@@ -506,8 +532,11 @@ public class Trial : MonoBehaviour
         countdownCanvas.enabled = true;
         promptCanvas.enabled = false;
 
-        sampleObject.transform.localPosition = sampleResetPosition;
-        foilObject.transform.localPosition = foilResetPosition;
+        sampleObjectPath.transform.localPosition = sampleResetPosition;
+        sampleObjectBlocks.transform.localPosition = sampleResetPosition;
+
+        foilObjectPath.transform.localPosition = foilResetPosition;
+        foilObjectBlocks.transform.localPosition = foilResetPosition;
 
         currentTime = float.Parse(sampleTime) / 1000f;
 
@@ -553,10 +582,17 @@ public class Trial : MonoBehaviour
                 yield return planeElevator.MoveElevator(direction);
             }
 
-            sampleObject.transform.localPosition = sampleResetPosition;
-            if (foilObject)
+            sampleObjectPath.transform.localPosition = sampleResetPosition;
+            sampleObjectBlocks.transform.localPosition = sampleResetPosition;
+
+            if (foilObjectPath)
             {
-                foilObject.transform.localPosition = foilResetPosition;
+                foilObjectPath.transform.localPosition = foilResetPosition;
+            }
+            
+            if (foilObjectBlocks)
+            {
+                foilObjectBlocks.transform.localPosition = foilResetPosition;
             }
         }
         

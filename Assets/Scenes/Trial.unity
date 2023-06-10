@@ -7629,7 +7629,7 @@ MonoBehaviour:
   snapRightAction:
     actionPath: /actions/default/in/SnapTurnRight
     needsReinit: 0
-  runTimer: 0
+  runTimer: 1
 --- !u!114 &560798318
 MonoBehaviour:
   m_ObjectHideFlags: 0
