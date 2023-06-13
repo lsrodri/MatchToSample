@@ -1,3 +1,4 @@
 Participant ID,Trial Number,Response,Correctness, Start Timestamp, End Timestamp
 2,1,right,false,2023-06-10 18:10:30.897,
 2,2,right,true,2023-06-10 18:11:22.419,
+2,3,left,false,2023-06-13 16:44:06.542,
