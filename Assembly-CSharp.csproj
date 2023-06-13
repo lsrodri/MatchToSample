@@ -95,7 +95,6 @@
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\VibrationDemoScript.cs" />
     <Compile Include="Assets\HideProbe.cs" />
     <Compile Include="Assets\TrackProbe.cs" />
-    <Compile Include="Assets\AddTagWindow.cs" />
     <Compile Include="Assets\MaterialFriction.cs" />
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
