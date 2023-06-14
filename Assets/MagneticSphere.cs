@@ -34,14 +34,17 @@ public class MagneticSphere : MonoBehaviour
 
 	public void toggleConstraint(int constraint)
 	{
-        HapticPlugin.shape_settings(gameObject.GetInstanceID(), hlStiffness, hlDamping, hlStaticFriction, hlDynamicFriction, hlPopThrough);
+        
+		// Commenting it as magnetism might be unnecessary
 
-        // If constraint = 1, constraint mode is activated, else it's contact mode
-        HapticPlugin.shape_constraintSettings(gameObject.GetInstanceID(), constraint, snapDistance);
-        HapticPlugin.shape_flipNormals(gameObject.GetInstanceID(), false);
+		//HapticPlugin.shape_settings(gameObject.GetInstanceID(), hlStiffness, hlDamping, hlStaticFriction, hlDynamicFriction, hlPopThrough);
 
-        // Front and back facing
-        HapticPlugin.shape_facing(gameObject.GetInstanceID(), 3);
+  //      // If constraint = 1, constraint mode is activated, else it's contact mode
+  //      HapticPlugin.shape_constraintSettings(gameObject.GetInstanceID(), constraint, snapDistance);
+  //      HapticPlugin.shape_flipNormals(gameObject.GetInstanceID(), false);
+
+  //      // Front and back facing
+  //      HapticPlugin.shape_facing(gameObject.GetInstanceID(), 3);
 
 		if (constraint == 1)
         {
@@ -68,7 +71,7 @@ public class MagneticSphere : MonoBehaviour
 
     void OnDestroy()
 	{
-		HapticPlugin.shape_remove(gameObject.GetInstanceID());
+		//HapticPlugin.shape_remove(gameObject.GetInstanceID());
 	}
 
 }

@@ -97,6 +97,10 @@ public class Trial : MonoBehaviour
 
     public bool runTimer = true;
 
+    private Renderer thumbsUp;
+    private Renderer thumbsDown;
+    private Renderer questionMark;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -130,6 +134,10 @@ public class Trial : MonoBehaviour
         maskCubeLeft = GameObject.Find("MaskCubeLeft");
         maskCubeRight = GameObject.Find("MaskCubeRight");
         maskCubeSample = GameObject.Find("MaskCubeSample");
+
+        thumbsUp = GameObject.Find("TURenderer").GetComponent<Renderer>();
+        thumbsDown = GameObject.Find("TDRenderer").GetComponent<Renderer>();
+        questionMark = GameObject.Find("QuestionMark").GetComponent<Renderer>();
 
         planeElevator = GetComponent<PlaneElevator>();
 
@@ -274,6 +282,10 @@ public class Trial : MonoBehaviour
 
         pauseCanvas.enabled = false;
         promptCanvas.enabled = false;
+
+        thumbsUp.enabled = false;
+        thumbsDown.enabled = false;
+        questionMark.enabled = false;
 
         countdownCanvas.enabled = true;
 
@@ -490,8 +502,19 @@ public class Trial : MonoBehaviour
         if (showFeedback)
         {
             // Show correctness on screen
-            string feedbackString = (correctness == "true") ? "Correct" : "Wrong";
-            feedbackText.SetText(feedbackString);
+            //string feedbackString = (correctness == "true") ? "Correct" : "Wrong";
+            //feedbackText.SetText(feedbackString);
+
+            if (correctness == "true")
+            {
+                thumbsUp.enabled = true;
+                Debug.Log("Correct");
+            }
+            else
+            {
+                thumbsDown.enabled = true;
+                Debug.Log("Incorrect");
+            }
         }
         
         // Create a new row for the CSV file
@@ -548,6 +571,7 @@ public class Trial : MonoBehaviour
 
         pauseBool = true;
         countdownCanvas.enabled = false;
+        questionMark.enabled = false;
 
         // moved to delayedPauseSetup() as it needs to wait for the elevator
         //pauseCanvas.enabled = true;
@@ -566,6 +590,7 @@ public class Trial : MonoBehaviour
 
         // Signaling to TrackProbe that it should stop recording
         shouldRecord = false;
+
 
         // Removed in favor of a target object where participants should bring the probe
         StartCoroutine(moveHapticObjects("up"));
@@ -605,14 +630,30 @@ public class Trial : MonoBehaviour
         pauseCanvas.enabled = true;
     }
 
+    void delayedAnswerSetup()
+    {
+        magneticSphere.toggleConstraint(1);
+        countdownCanvas.enabled = false;
+        promptCanvas.enabled = true;
+    }
+
     private void PromptAnswer()
     {
 
 
         // Removed in favor of a target object where participants should bring the probe
         StartCoroutine(moveHapticObjects("up"));
-        
+        // Commented as it was somehow showing up during the phase 1, must check how to prevent PromptAnswer to be triggered after answering
+        //Invoke("delayedAnswerSetup", planeElevator.duration);
+        magneticSphere.toggleConstraint(1);
         countdownCanvas.enabled = false;
         promptCanvas.enabled = true;
+        questionMark.enabled = true;
+
+    }
+
+    public void skipPhase()
+    {
+        currentTime = 0;
     }
 }
