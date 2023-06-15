@@ -496,7 +496,7 @@ public class Trial : MonoBehaviour
         // Time since the scene was loaded, saved as participant reaction time
         string elapsedTime = Time.timeSinceLevelLoad.ToString();
 
-        //answerTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        answerTimestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
         string correctness = answer == sampleOrder ? "true" : "false";
 
@@ -517,11 +517,19 @@ public class Trial : MonoBehaviour
                 Debug.Log("Incorrect");
             }
         }
-        
+
         // Create a new row for the CSV file
         string[] rowData = new string[] { participantId, trialNumber, answer, correctness, startTimestamp, answerTimestamp };
-        // Check if the file exists
-        string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
+        //// Check if the file exists
+        //string filePath = Path.Combine(Application.dataPath, "Results", participantId + ".csv");
+        
+
+        string filePath = Path.Combine(Application.persistentDataPath, "Results", participantId + ".csv");
+
+        //string resultsDirPath = Path.Combine(Application.persistentDataPath, "Results");
+        //Directory.CreateDirectory(resultsDirPath); // Ensures that the directory exists
+        //string filePath = Path.Combine(resultsDirPath, participantId + ".csv");
+
         bool fileExists = File.Exists(filePath);
 
         // Write the row to the CSV file
@@ -534,6 +542,7 @@ public class Trial : MonoBehaviour
             }
 
             sw.WriteLine(string.Join(",", rowData));
+            Debug.Log("Data saved in: " + Application.persistentDataPath);
         }
 
         // After writing current trial data, setting the next trial
