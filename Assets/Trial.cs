@@ -354,6 +354,7 @@ public class Trial : MonoBehaviour
             {
                 // Moving the background plane to stop device for dropping and to allow proble to glide through stimuli
                 plane.transform.SetPositionAndRotation(new Vector3(0.27f, -0.9f, 0.508f), new Quaternion(0f, 0f, 0f, 0f));
+                //plane.transform.position = planeElevator.targetPosition;
                 plane.GetComponent<Renderer>().enabled = false;
 
                 // Reinstantiating the sample and foil game objects so that it does not get mapped by OpenHaptics, just removing the tag does not solve it
@@ -598,7 +599,10 @@ public class Trial : MonoBehaviour
 
     IEnumerator moveHapticObjects(string direction)
     {
-        
+
+        // Restablishing the plane as V condition manipulates it to present stimuli without allowing the probe to touch it
+        plane.GetComponent<Renderer>().enabled = true;
+
         // Arranging objects in case the stimuli need to be "hidden" by the plane
         if (direction == "up")
         {
