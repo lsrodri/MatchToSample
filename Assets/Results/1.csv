@@ -168,3 +168,5 @@ Participant ID,Trial Number,Response,Correctness, Start Timestamp, End Timestamp
 1,13,left,false,2023-06-15 16:17:52.814,
 1,14,left,true,2023-06-15 16:18:43.191,
 1,15,left,false,2023-06-15 16:23:57.186,
+1,16,left,true,2023-06-15 16:54:14.842,
+1,17,left,false,2023-06-15 16:59:19.518,

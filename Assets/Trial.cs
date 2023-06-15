@@ -92,8 +92,8 @@ public class Trial : MonoBehaviour
     private PlaneElevator planeElevator;
 
     // Declaring manual positions that are used to 
-    private static readonly Vector3 sampleResetPosition = new Vector3(-8.56f, 12f, -0.50999999f);
-    private static readonly Vector3 foilResetPosition = new Vector3(8.05f, 12f, -0.50999999f);
+    private static readonly Vector3 sampleResetPosition = new Vector3(-8.56f, -12f, -0.50999999f);
+    private static readonly Vector3 foilResetPosition = new Vector3(8.05f, -12f, -0.50999999f);
 
     public bool runTimer = true;
 
@@ -381,8 +381,8 @@ public class Trial : MonoBehaviour
 
                 // Moving the original aside
                 //sampleObject.transform.localPosition = new Vector3(-8.56f, 0.5500000007f, -0.50999999f);
-                sampleObjectPath.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
-                sampleObjectBlocks.transform.localPosition = new Vector3(-8.56f, 12f, -0.50999999f);
+                sampleObjectPath.transform.localPosition = sampleResetPosition;
+                sampleObjectBlocks.transform.localPosition = sampleResetPosition;
 
                 // Replicating for foil
                 //foilObject.transform.Find("default").tag = "Untagged";
