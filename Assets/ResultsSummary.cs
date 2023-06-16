@@ -31,7 +31,8 @@ public class ResultsSummary : MonoBehaviour
         List<string> csvTable = new List<string>();
 
         // Loop through each row in the CSV file
-        for (int i = 1; i < lines.Length; i++)
+        // Starting from 3 to ignore the training trials
+        for (int i = 3; i < lines.Length; i++)
         {
             // Split the row into its values
             string[] values = lines[i].Split(',');

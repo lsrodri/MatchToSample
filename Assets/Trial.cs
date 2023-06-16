@@ -101,6 +101,8 @@ public class Trial : MonoBehaviour
     private Renderer thumbsDown;
     private Renderer questionMark;
 
+    private int rowCount;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -130,6 +132,8 @@ public class Trial : MonoBehaviour
         
 
         csvReader = FindObjectOfType<CsvReader>();
+
+        rowCount = csvReader.GetRowCount(participantId);
 
         maskCubeLeft = GameObject.Find("MaskCubeLeft");
         maskCubeRight = GameObject.Find("MaskCubeRight");
@@ -545,8 +549,17 @@ public class Trial : MonoBehaviour
             Debug.Log("Data saved in: " + Application.persistentDataPath);
         }
 
-        // After writing current trial data, setting the next trial
-        nextTrial();
+        // If this is the last trial for this participant, load the results scene instead of attempting to load the next trial
+        if (trialNumber == rowCount.ToString())
+        {
+            SceneManager.LoadScene("Results");
+        }
+        else
+        {
+            // After writing current trial data, setting the next trial
+            nextTrial();
+        }
+        
     }
 
     private void nextTrial()

@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Training.unity
+    guid: fe022ba232f2cc54d9bc9d68c6616031
+  - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 1e8cec3e42978da47a554aa2096bc3cd
-  - enabled: 1
-    path: Assets/Scenes/Extra/Trial.unity
-    guid: 2c1efdee37dd9c64e9f2ad0c02e9f1b1
   - enabled: 1
     path: Assets/Scenes/TrialVR.unity
     guid: b7b3008ad9ae26145946ff8cb59560f8

@@ -88,6 +88,7 @@
     <Compile Include="Assets\ShowOnTouch.cs" />
     <Compile Include="Assets\Scripts\CsvReader.cs" />
     <Compile Include="Assets\FollowProbe.cs" />
+    <Compile Include="Assets\ResultsSummary.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticEffect.cs" />
     <Compile Include="Assets\MaskRender.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\BlockPuzzleController.cs" />
@@ -95,11 +96,11 @@
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\VibrationDemoScript.cs" />
     <Compile Include="Assets\HideProbe.cs" />
     <Compile Include="Assets\TrackProbe.cs" />
+    <Compile Include="Assets\Scripts\LoadScene.cs" />
     <Compile Include="Assets\MaterialFriction.cs" />
     <Compile Include="Assets\Countdown.cs" />
     <Compile Include="Assets\OpenHaptics\HapticScripts\HapticFitToCamera.cs" />
     <Compile Include="Assets\OpenHaptics\HapticDemos\DemoScripts\ErrorDemo.cs" />
-    <Compile Include="Assets\ResultsSummary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

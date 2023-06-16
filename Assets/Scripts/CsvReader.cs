@@ -71,4 +71,33 @@ public class CsvReader : MonoBehaviour
 
         return rowData;
     }
+
+    public int GetRowCount(string participantId)
+    {
+        TextAsset asset = Resources.Load<TextAsset>(csvFileName);
+        if (asset == null)
+        {
+            Debug.LogError("CSV File not found in Resources folder");
+            return 0;
+        }
+
+        string[] lines = asset.text.Split('\n');
+
+        int rowCount = 0;
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] values = lines[i].Split(',');
+
+            // Check if the row's Participant ID matches the input Participant ID
+            if (RemoveNonDigits(values[0]) == RemoveNonDigits(participantId))
+            {
+                rowCount++;
+            }
+        }
+
+        return rowCount;
+    }
+
+
 }
