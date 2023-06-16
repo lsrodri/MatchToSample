@@ -21,8 +21,8 @@ public class PlaneElevator : MonoBehaviour
         else
         {
             // Smoothly moving the elevator down makes the probe miss the stimuli, so I'm moving it back abruptly
-            //yield return StartCoroutine(MoveElevatorCoroutine(elevator, originalPosition, duration));
-            elevator.transform.position = originalPosition;
+            yield return StartCoroutine(MoveElevatorCoroutine(elevator, originalPosition, duration));
+            //elevator.transform.position = originalPosition;
         }
         
     }

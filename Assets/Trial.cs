@@ -449,8 +449,8 @@ public class Trial : MonoBehaviour
             // Surfacing the sample mask and hiding the others
             maskCubeSample.transform.localPosition = new Vector3(0.0399999991f, -2.448236823f, -0.0400003791f);
             //maskCubeSample.transform.localPosition = new Vector3(0.0199999996f, -0.514999986f, -0.0400003791f);
-            maskCubeLeft.transform.localPosition = new Vector3(-1.52f, -0.448236823f, -0.02000038f);
-            maskCubeRight.transform.localPosition = new Vector3(1.61f, -0.448236823f, -0.02000038f);
+            maskCubeLeft.transform.localPosition = new Vector3(-1.52f, -0.545f, -0.02000038f);
+            maskCubeRight.transform.localPosition = new Vector3(1.61f, -0.545f, -0.02000038f);
 
             if (adhocTimeLimit == 0f)
             {

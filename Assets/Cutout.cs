@@ -22,7 +22,10 @@ public class Cutout : MonoBehaviour
     private MeshRenderer cylinderMeshRenderer;
     private MeshRenderer collisionCylinderMeshRenderer;
 
-  
+    // Needed to check whether the application is running as the probe should not be hidden at this point
+    public Canvas promptCanvas;
+    public Canvas pauseCanvas;
+
     private Renderer textureRenderer;
     //private Color sphereColor;
     //private Color cylinderColor;
@@ -62,7 +65,7 @@ public class Cutout : MonoBehaviour
         // Performing the collision check away from collision events to prevent repeated code
         if (collision.gameObject == targetObject.gameObject)
         {
-            
+
             if (enable == true)
             {
                 textureRenderer.material.mainTexture = plainTexture;
@@ -72,10 +75,19 @@ public class Cutout : MonoBehaviour
                 textureRenderer.material.mainTexture = holeTexture;
             }
 
-            // Probe sphere is hidden or reactivated in any case
-            sphereMeshRenderer.enabled = enable;
-            cylinderMeshRenderer.enabled = enable;
-
+            // Probe is visible if either pause or prompt canvas are enabled, even if collision is happening
+            if (promptCanvas.enabled || pauseCanvas.enabled)
+            {
+                sphereMeshRenderer.enabled = true;
+                cylinderMeshRenderer.enabled = true;
+            }
+            else
+            {
+                // Probe sphere is hidden or reactivated in any case
+                sphereMeshRenderer.enabled = enable;
+                cylinderMeshRenderer.enabled = enable;
+            }
+            
             // If the probe should not disappear, a "shorter" cylinder is shown to prevent occlusion
             if (!hideProbe)
             {
